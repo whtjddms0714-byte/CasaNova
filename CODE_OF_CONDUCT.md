@@ -31,4 +31,4 @@ Project maintainers have the right and responsibility to remove, edit, or reject
 If you experience or witness unacceptable behavior, please report it to [whtddms0714@gmail.com].
 
 ## Attribution
-This Code of Conduct is adapted from the Contributor Covenant, version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct/?utm_source=chatgpt.com.
+This Code of Conduct is adapted from the Contributor Covenant, version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct/?utm_source
