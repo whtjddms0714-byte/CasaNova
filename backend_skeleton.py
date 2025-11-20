@@ -1,15 +1,21 @@
 import pandas as pd
 import math
+from decimal import Decimal, getcontext
+
+# -------------------------------
+# Decimal Precision Setting
+# -------------------------------
+getcontext().prec = 10
 
 # -------------------------------
 # User Information
 # -------------------------------
 user_info = {
-    "income_monthly": 2500000,   # Monthly income
-    "asset": 30000000,           # Savings / capital
-    "existing_debt": 0,          # Existing debt
-    "dsr_ratio": 0.4,            # DSR (Debt Service Ratio)
-    "weights": [5, 4, 3, 2],     # Park / School / Mart / Transport weights
+    "monthly_income": 2500000,           # Monthly income
+    "savings": 30000000,                 # Available savings
+    "existing_debt_monthly": 0,          # Existing monthly debt payment
+    "dsr_ratio": 0.4,                     # Debt Service Ratio
+    "weights": [5, 4, 3, 2],             # Park / School / Mart / Transport
 }
 
 # -------------------------------
@@ -25,12 +31,17 @@ loan_products = [
 # Loan Calculation
 # -------------------------------
 def calculate_max_loan(user, loan):
-    available_monthly = user["income_monthly"] * user["dsr_ratio"] - user.get("existing_debt", 0) / 12
+    existing_debt_monthly = Decimal(user.get("existing_debt_monthly", 0))
+    available_monthly = Decimal(user["monthly_income"]) * Decimal(user["dsr_ratio"]) - existing_debt_monthly
+
     if available_monthly <= 0:
         return 0
-    r = loan["rate"] / 12
-    n = loan["years"] * 12
-    return int(available_monthly * (1 - (1 + r) ** (-n)) / r)
+
+    monthly_rate = Decimal(loan["rate"]) / Decimal(12)
+    total_months = Decimal(loan["years"]) * Decimal(12)
+
+    max_loan = available_monthly * (1 - (1 + monthly_rate) ** (-total_months)) / monthly_rate
+    return int(max_loan)
 
 def recommend_loans(user, loan_list):
     return [{"name": loan["name"], "max_loan": calculate_max_loan(user, loan)} for loan in loan_list]
@@ -92,7 +103,7 @@ def calculate_distance(df_estate, infra_df, col_name):
 # Final Recommendation
 # -------------------------------
 def recommend_estate(user, loan_amount, df):
-    total_budget = user["asset"] + loan_amount
+    total_budget = user["savings"] + loan_amount
     df = calculate_infra_score(df, user["weights"])
     return df[df['Price'] <= total_budget].sort_values(by='Infrastructure Score', ascending=False)
 
@@ -110,6 +121,9 @@ def main():
     else:
         selected_loan = 0
 
+    # -------------------------------
+    # Sample Estate & Infrastructure Data
+    # -------------------------------
     df_estate = pd.DataFrame([
         ['Gangnam-gu, Seoul', 'Raemian', 18000 * 10000, 37.4979, 127.0276],
         ['Seocho-gu, Seoul', 'Xi', 25000 * 10000, 37.4836, 127.0324],
@@ -144,14 +158,24 @@ def main():
         ['Samseong Station', 37.5080, 127.0631]
     ], columns=['Name', 'Latitude', 'Longitude'])
 
+    # -------------------------------
+    # Distance Calculation
+    # -------------------------------
     df_estate = calculate_distance(df_estate, df_station, "Transport (min)")
     df_estate = calculate_distance(df_estate, df_park, "Park (min)")
     df_estate = calculate_distance(df_estate, df_mart, "Mart (min)")
     df_estate = calculate_distance(df_estate, df_school, "School (min)")
 
+    # -------------------------------
+    # Recommend Estates
+    # -------------------------------
     recommended = recommend_estate(user_info, selected_loan, df_estate)
     print("\nRecommended Properties Within Budget:")
-    print(recommended[['Address', 'Building', 'Price', 'Infrastructure Score']].to_string(index=False) if not recommended.empty else "No properties found within your budget.")
+    if not recommended.empty:
+        print(recommended[['Address', 'Building', 'Price', 'Infrastructure Score']].to_string(index=False))
+    else:
+        print("No properties found within your budget.")
 
 if __name__ == "__main__":
     main()
+
