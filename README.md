@@ -3,7 +3,7 @@
 **_New Home, New Start._**
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Latest Release](https://img.shields.io/github/v/release/whtjddms0714-byte/CasaNova?color=success)](https://github.com/whtjddms0714-byte/CasaNova/releases/tag/v0.0.1)
+[![Latest Release](https://img.shields.io/github/v/tag/whtjddms0714-byte/CasaNova.svg?color=success&label=v0.0.1%20Release)](https://github.com/whtjddms0714-byte/CasaNova/releases/tag/v0.0.1)
 [![Contributors](https://img.shields.io/github/contributors/whtjddms0714-byte/CasaNova)](https://github.com/whtjddms0714-byte/CasaNova/graphs/contributors)
 
 ---
@@ -24,10 +24,10 @@ The heart of CasaNova lies in its two primary engines: **Financial Analysis** an
 
 | Feature | Status | Description |
 | :--- | :--- | :--- |
-| **💰 Financial Simulation Engine** | `Planned` | DSR-based logic using the PMT formula to calculate maximum loan amount and monthly repayment. |
+| **💰 Financial Simulation Engine** | `In Progress` | DSR-based logic using the PMT formula to calculate maximum loan amount and monthly repayment. |
 | **📈 Budget Confirmation & Visualization** | `In Progress` | Calculates budget as **Asset + Max Loan**, visualized with Chart.js. |
-| **🎯 Lifestyle Matching Engine** | `Ready` | Weighted scoring algorithm for lifestyle preferences. |
-| **🧭 Integrated Filtering** | `Planned` | Filters properties within budget and ranks them by matching score. |
+| **🎯 Lifestyle Matching Engine** | `In Progress` | Weighted scoring algorithm for lifestyle preferences. |
+| **🧭 Integrated Filtering** | `In Progress` | Filters properties within budget and ranks them by matching score. |
 
 ---
 
