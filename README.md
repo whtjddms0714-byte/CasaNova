@@ -84,7 +84,7 @@ python manage.py migrate
 # Start the Django API server
 python manage.py runserver
 ```
-API accessible at: ➡ http://localhost:8000
+API accessible at: ➡[http://127.0.0.1:8000/]
  (Django default port)
 
 #### 3-2. Frontend Server Setup (Vite + React/TypeScript)
