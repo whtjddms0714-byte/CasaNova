@@ -17,6 +17,13 @@ Unlike traditional real estate platforms, CasaNova integrates and analyzes compl
 This project is fully open-source and free for anyone to use and contribute to.
 
 ---
+## 📚 Documentation
+
+CasaNova project documentation is available at the link below:
+
+➡ **https://casanova.readthedocs.io/en/latest/**
+
+---
 
 ## ✨ Core Features (주요 기능)
 
