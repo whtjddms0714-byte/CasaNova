@@ -56,7 +56,7 @@ If you have any inquiries regarding collaboration, questions, or general feedbac
 
 <div class="core-links-grid">
 
-    <a href="https://your-readthedocs-link" class="link-card">
+    <a href="https://casanova.readthedocs.io/en/latest/" class="link-card">
         <h3>📄 Documentation Portal</h3>
         <p>Find installation guides, API reference, and full usage instructions.</p>
     </a>

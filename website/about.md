@@ -53,4 +53,4 @@ markdown: kramdown
 For more details on the architecture and contribution standards:
 
 * **[GitHub Repository]**(https://github.com/whtjddms0714-byte/CasaNova)
-* **[Documentation]**(https://your-readthedocs-link)
+* **[Documentation]**(https://casanova.readthedocs.io/en/latest/)

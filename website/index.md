@@ -15,7 +15,7 @@ title: "Home"
 
 <div class="core-links-grid">
   
-  <a href="https://your-readthedocs-link" class="link-card">
+  <a href="https://casanova.readthedocs.io/en/latest/" class="link-card">
     <h3>📄 Documentation</h3>
     <p>Usage Guide, API Reference, and Installation details.</p>
   </a>
