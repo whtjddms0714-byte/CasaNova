@@ -3,11 +3,26 @@ layout: home
 title: "Home"
 ---
 
-# Welcome to CasaNova
+# Welcome to CasaNova: New Home, New Start.
 
-CasaNova는 20대 청년을 위한 현실적인 주택 예산과 라이프스타일 맞춤형 부동산 추천 서비스를 제공합니다.
+<p class="mission-statement">
+  CasaNova is an open-source web application designed to help young adults in their 20s confirm a realistic housing budget based on their current assets and income.
+  
+  Unlike traditional real estate platforms, CasaNova integrates and analyzes complex factors—such as DSR/DTI-emulating loan regulations and youth-targeted mock financial products—to support financially savvy and stable housing decisions.
+</p>
 
-## ✨ 핵심 링크
+## ✨ Core Links
 
-- [Documentation](https://your-readthedocs-link) — 사용법, API 등 문서 전체
-- [GitHub Repository](https://github.com/whtjddms0714-byte/CasaNova)
+<div class="core-links-grid">
+  
+  <a href="https://your-readthedocs-link" class="link-card">
+    <h3>📄 Documentation</h3>
+    <p>Usage Guide, API Reference, and Installation details.</p>
+  </a>
+  
+  <a href="https://github.com/whtjddms0714-byte/CasaNova" class="link-card">
+    <h3>💻 GitHub Repository</h3>
+    <p>Source Code, contribution guidelines, and issue tracking.</p>
+  </a>
+
+</div>

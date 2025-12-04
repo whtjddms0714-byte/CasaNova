@@ -1,30 +1,65 @@
 ---
-layout: default
+layout: page
 title: "Community"
+markdown: kramdown 
 ---
 
 # CasaNova Community
 
-CasaNova 프로젝트에 관심 가져주셔서 감사합니다!  
-여기서 사용자와 개발자, 기여자들이 소통할 수 있습니다.
+<p>
+  Thank you for your interest in the CasaNova project! We aim to be an open community where users, developers, and contributors can connect and collaborate.
+</p>
 
-## 💬 토론 포럼
+## 💬 Communication & Support Channels
 
-- 질문, 버그 보고, 기능 요청 등은 [GitHub Discussions](https://github.com/whtjddms0714-byte/CasaNova/discussions)에서 진행해주세요.
+<div class="core-links-grid">
+  
+  <a href="https://github.com/whtjddms0714-byte/CasaNova/issues" class="link-card">
+    <h3>🐛 GitHub Issues & Tracking</h3>
+    <p>Please use our official GitHub Issues for structured Q&A, bug reports, and feature requests.</p>
+  </a>
+  
+  <a href="mailto:jiyoonmoon031@gmail.com" class="link-card">
+    <h3>✉️ Official Support</h3>
+    <p>For formal announcements or direct support inquiries, please use this email address.</p>
+    <small>jiyoonmoon031@gmail.com</small>
+  </a>
 
-## 🛠️ 기여 및 지원
+  <a href="[Insert Final Discord/Slack URL]" class="link-card">
+    <h3>🎙️ Real-time Chat</h3>
+    <p>Join our server for quick developer questions and casual conversation. (URL to be provided by partner)</p>
+  </a>
 
-- 프로젝트에 기여하고 싶다면 [CONTRIBUTING.md](https://github.com/whtjddms0714-byte/CasaNova/blob/main/CONTRIBUTING.md)를 참고해주세요.
-- 이슈 보고는 [GitHub Issues](https://github.com/whtjddms0714-byte/CasaNova/issues)에서 가능합니다.
+</div>
 
-## 📢 기타 소통 채널
+## 🛠️ Contribution Guidelines Summary
 
-- Discord: [링크 삽입]
-- Slack: [링크 삽입]
-- 이메일: casa.nova@example.com
+<p>To maintain a clean and respectful workflow, please adhere to our contribution standards. More detail is available in the repository.</p>
 
-## 📌 커뮤니티 가이드
+<div class="feature-card-grid">
 
-- 서로 존중하며 소통하기
-- 질문 전 기존 게시글 검색
-- 스팸, 광고 금지
+  <div class="feature-card">
+    <h4>Commit Messages (Imperative)</h4>
+    <ul>
+        <li>Use Imperative Mood (e.g., `Add user model`).</li>
+        <li>Concise Summary on the first line.</li>
+    </ul>
+  </div>
+
+  <div class="feature-card">
+    <h4>Branching Model</h4>
+    <ul>
+        <li>Use short-lived feature branches.</li>
+        <li>Do not commit directly to the `main` branch.</li>
+    </ul>
+  </div>
+
+  <div class="feature-card">
+    <h4>PR Hygiene & Review</h4>
+    <ul>
+        <li>Requires minimum 2 approvals before merging.</li>
+        <li>Must include a link to the relevant Issue (`Closes #XX`).</li>
+    </ul>
+  </div>
+
+</div>

@@ -1,26 +1,69 @@
 ---
-layout: default
+layout: page
 title: "Contact"
+markdown: kramdown 
 ---
 
-# Contact CasaNova
+# Contact & Technical Reference
 
-CasaNova 프로젝트에 대해 궁금한 점이나 제안 사항이 있다면 아래 방법으로 연락해주세요.
+## 📧 Contact Information
 
-## 📧 이메일
 
-- casa.nova@example.com
 
-## 💻 GitHub
+<p>
 
-- 이슈 보고, 기능 요청, 버그 신고: [GitHub Issues](https://github.com/whtjddms0714-byte/CasaNova/issues)
-- 프로젝트 확인 및 기여: [GitHub Repository](https://github.com/whtjddms0714-byte/CasaNova)
+General Email: jiyoonmoon031@gmail.com
 
-## 📄 Documentation
+</p>
 
-- 사용법, API, 설치 안내: [ReadTheDocs](https://your-readthedocs-link)
 
-## 💬 기타 소통 채널
 
-- Discord: [링크 삽입]
-- Slack: [링크 삽입]
+<p>
+
+If you have any inquiries regarding collaboration, questions, or general feedback, please reach out to our team.
+
+</p>
+
+---
+
+## ⚙️ Technical Stack Summary
+
+<div class="feature-card-grid">
+
+    <div class="feature-card">
+        <h4>💻 Backend Stack</h4>
+        <ul>
+            <li>Language: Python 3.10+</li>
+            <li>Framework: Django 5.x</li>
+            <li>Database: MySQL</li>
+        </ul>
+    </div>
+
+    <div class="feature-card">
+        <h4>🖥️ Frontend Stack</h4>
+        <ul>
+            <li>Language: TypeScript / React</li>
+            <li>Styling: Tailwind CSS</li>
+            <li>Visualization: Chart.js</li>
+        </ul>
+    </div>
+    
+</div>
+
+---
+
+## 📄 Documentation and Repository Links
+
+<div class="core-links-grid">
+
+    <a href="https://your-readthedocs-link" class="link-card">
+        <h3>📄 Documentation Portal</h3>
+        <p>Find installation guides, API reference, and full usage instructions.</p>
+    </a>
+
+    <a href="https://github.com/whtjddms0714-byte/CasaNova" class="link-card">
+        <h3>🔗 Source Code & Repository</h3>
+        <p>Access the source code, review contributions, and file issues.</p>
+    </a>
+
+</div>
