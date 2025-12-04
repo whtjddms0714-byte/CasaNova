@@ -19,15 +19,16 @@ markdown: kramdown
     <p>Please use our official GitHub Issues for structured Q&A, bug reports, and feature requests.</p>
   </a>
   
-  <a href="mailto:jiyoonmoon031@gmail.com" class="link-card">
+  <a href="mailto:casanova23011@gmail.com" class="link-card">
     <h3>✉️ Official Support</h3>
     <p>For formal announcements or direct support inquiries, please use this email address.</p>
-    <small>jiyoonmoon031@gmail.com</small>
+    <small>casanova23011@gmail.com</small>
   </a>
 
-  <a href="[Insert Final Discord/Slack URL]" class="link-card">
-    <h3>🎙️ Real-time Chat</h3>
-    <p>Join our server for quick developer questions and casual conversation. (URL to be provided by partner)</p>
+  <a href="https://discord.gg/NqD8gtep" class="link-card">
+    <h3>🎙️ Real-time Chat (Discord)</h3>
+    <p>Join our server for quick developer questions and casual conversation.</p>
+    <small>https://discord.gg/NqD8gtep</small>
   </a>
 
 </div>

@@ -6,22 +6,16 @@ markdown: kramdown
 
 # Contact & Technical Reference
 
+
+
 ## 📧 Contact Information
 
-
-
 <p>
-
-General Email: jiyoonmoon031@gmail.com
-
+  General Email: <a href="mailto:casanova23011@gmail.com">casanova23011@gmail.com</a>
 </p>
 
-
-
 <p>
-
-If you have any inquiries regarding collaboration, questions, or general feedback, please reach out to our team.
-
+  If you have any inquiries regarding collaboration, questions, or general feedback, please reach out to our team.
 </p>
 
 ---
