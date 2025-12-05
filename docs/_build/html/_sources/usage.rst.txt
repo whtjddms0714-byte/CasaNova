@@ -1,4 +1,157 @@
 How to Use
 ==========
 
-사용법, 예제
+This guide explains how users interact with CasaNova to obtain financial insights
+and personalized housing recommendations.
+
+Overview
+--------
+
+CasaNova operates in two main phases:
+
+1. **Financial Analysis Phase**  
+   Calculates loan eligibility, maximum loan amount, and final housing budget.
+
+2. **Property Recommendation Phase**  
+   Ranks properties based on lifestyle preferences and accessibility.
+
+The following sections describe how each part works from a user perspective.
+
+User Input Requirements
+-----------------------
+
+CasaNova requires several user attributes to produce accurate recommendations:
+
+**Financial Information**
+
+- Monthly income
+- Annual income
+- Current liquid assets
+- Existing debts
+- Credit score
+- Expected DSR ratio
+
+**Personal Attributes**
+
+- Marital status (affects preferential loan conditions)
+- First-job status (social beginner benefits)
+- Preferred region (e.g., 강남구)
+
+**Lifestyle Preferences**
+
+Weights for:
+
+- Park accessibility  
+- School accessibility  
+- Mart availability  
+- Transportation convenience  
+
+Each preference weight allows CasaNova to prioritize the aspects of living
+that matter most to the user.
+
+Financial Simulation Usage
+--------------------------
+
+CasaNova evaluates real financial loan products loaded from verified datasets or public APIs, each with varying:
+
+- Interest rates
+- Tenures
+- Minimum credit requirements
+- Preferential conditions
+
+The system computes the maximum possible loan for each product using the PMT formula:
+
+.. code-block:: python
+
+    max_loan = available_monthly * (1 - (1+r)**(-n)) / r
+
+Example usage:
+
+::
+
+    recommended_loans = recommend_loans(user_info, loan_products)
+
+This returns a sorted list of:
+
+- Loan name
+- Loan score
+- Maximum allowed loan amount
+
+Property Recommendation Usage
+-----------------------------
+
+Once the user selects a loan (or opts not to use one),
+CasaNova performs the following operations:
+
+1. Total budget is calculated:
+
+::
+
+    total_budget = user["asset"] + selected_loan_amount
+
+2. Vectorized distance computations determine the nearest:
+
+- Park
+- School
+- Mart
+- Public transit station
+
+3. Each distance is converted into a score (30–100):
+
+.. code-block:: python
+
+    df['Transport Score'] = df['Transport (min)'].apply(classify_grade)
+
+4. A weighted infrastructure score is computed:
+
+.. code-block:: python
+
+    df = calculate_infra_score(df, user["weights"])
+
+5. Properties are filtered and ranked:
+
+::
+
+    recommended = recommend_estate(user, loan_amount, df_estate)
+
+CLI Usage Example
+-----------------
+
+CasaNova includes a simple example `main()` function for CLI interaction:
+
+.. code-block:: python
+
+    if __name__ == "__main__":
+        main()
+
+When executed:
+
+- Prompts whether the user wants a loan
+- Displays the top-ranked loan products
+- Requests loan selection
+- Outputs the recommended properties within budget
+
+Expected Output Example:
+
+::
+
+    1. Loan Product A12: 점수=85.23, 최대대출금=123,500,000원
+    2. Loan Product B44: 점수=80.51, 최대대출금=117,200,000원
+
+    Recommended Properties Within Budget:
+       주소        건물명        물건금액(만원)   Infrastructure Score
+    -----------------------------------------------------------------
+       서울 강남구 ...     ...        22,000           87.5
+
+End of Process
+--------------
+
+Users receive:
+
+- A realistic housing budget  
+- A recommended loan product (optional)  
+- A list of properties ranked according to personal preferences  
+
+CasaNova streamlines the housing decision-making process using financial logic
+and smart infrastructure scoring.
+

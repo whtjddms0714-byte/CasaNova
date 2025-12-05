@@ -20,7 +20,7 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="api_reference.html" />
+    <link rel="next" title="API Reference" href="api_reference.html" />
     <link rel="prev" title="How to Use" href="usage.html" /> 
 </head>
 
@@ -43,14 +43,31 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About the Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">How to Use</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Technical Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Technical Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Technical Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#system-architecture">System Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#financial-simulation-engine">Financial Simulation Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loan-product-data-source">Loan Product Data Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lifestyle-matching-engine">Lifestyle Matching Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#property-recommendation-pipeline">Property Recommendation Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maintenance_troubleshooting.html">Maintenance and Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Information</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="contribution.html">Contribution Guidelines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html"># 릴리즈 노트Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
         </div>
@@ -79,7 +96,105 @@
              
   <section id="technical-overview">
 <h1>Technical Overview<a class="headerlink" href="#technical-overview" title="Link to this heading"></a></h1>
-<p>프로젝트 아키텍처, 구성요소, 기술 스택 정리</p>
+<p>This section provides an overview of CasaNova’s system architecture, core algorithms,
+and financial-based property recommendation pipeline.</p>
+<section id="system-architecture">
+<h2>System Architecture<a class="headerlink" href="#system-architecture" title="Link to this heading"></a></h2>
+<p>CasaNova consists of two major subsystems:</p>
+<ol class="arabic simple">
+<li><p><strong>Backend (Django + Python)</strong>
+- Financial simulation logic
+- Loan recommendation engine
+- Property scoring and filtering
+- API endpoints for property and financial data</p></li>
+<li><p><strong>Frontend (React + TypeScript)</strong>
+- User interface for input forms
+- Budget visualization (Chart.js)
+- Interactive property explorer
+- API client for backend communication</p></li>
+</ol>
+</section>
+<section id="financial-simulation-engine">
+<h2>Financial Simulation Engine<a class="headerlink" href="#financial-simulation-engine" title="Link to this heading"></a></h2>
+<p>CasaNova uses a PMT-based financial model to compute the maximum loan available to the user.
+The engine considers:</p>
+<ul class="simple">
+<li><p>Monthly income</p></li>
+<li><p>Credit score</p></li>
+<li><p>DSR ratio</p></li>
+<li><p>Existing debt</p></li>
+<li><p>Loan product conditions (interest rate, tenure, preferential benefits)</p></li>
+</ul>
+<p><strong>Loan Calculation Formula</strong></p>
+<p>If monthly repayment capacity is <code class="docutils literal notranslate"><span class="pre">P</span></code>, interest rate <code class="docutils literal notranslate"><span class="pre">r</span></code>, and number of payments <code class="docutils literal notranslate"><span class="pre">n</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">max_loan</span> <span class="o">=</span> <span class="n">P</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">r</span><span class="p">)</span><span class="o">^</span><span class="p">(</span><span class="o">-</span><span class="n">n</span><span class="p">))</span> <span class="o">/</span> <span class="n">r</span>
+</pre></div>
+</div>
+<p>Preferential conditions such as “사회초년생 우대” or “신혼부부 금리 인하” are evaluated through:</p>
+<ul class="simple">
+<li><p>marital status</p></li>
+<li><p>first-job status</p></li>
+<li><p>income level</p></li>
+</ul>
+</section>
+<section id="loan-product-data-source">
+<h2>Loan Product Data Source<a class="headerlink" href="#loan-product-data-source" title="Link to this heading"></a></h2>
+<p>CasaNova does not generate mock loan products.
+Instead, it loads <strong>real-world loan data</strong> from an external dataset or public financial API.</p>
+<p>Loan products may include:</p>
+<ul class="simple">
+<li><p>product name</p></li>
+<li><p>financial institution</p></li>
+<li><p>interest rate (fixed/variable)</p></li>
+<li><p>loan tenure</p></li>
+<li><p>minimum income and credit requirements</p></li>
+<li><p>preferential conditions (e.g., 청년, 신혼부부, 서민우대 등)</p></li>
+</ul>
+<p>Example (CSV/DB/API loading):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df_loans</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/loan_products.csv&quot;</span><span class="p">)</span>
+<span class="n">loan_products</span> <span class="o">=</span> <span class="n">df_loans</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="lifestyle-matching-engine">
+<h2>Lifestyle Matching Engine<a class="headerlink" href="#lifestyle-matching-engine" title="Link to this heading"></a></h2>
+<p>CasaNova assigns weighted scores to nearby infrastructure:</p>
+<ul class="simple">
+<li><p>Parks</p></li>
+<li><p>Schools</p></li>
+<li><p>Marts</p></li>
+<li><p>Transportation hubs</p></li>
+</ul>
+<p>Vectorized distance computation uses Haversine formulas for performance:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="n">haversine_vec</span><span class="p">(</span><span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">)</span>
+<span class="n">min_distances</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Grades from 30–100 are assigned based on distance brackets, then aggregated into a final score:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Infrastructure Score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Park Score&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">w1</span> <span class="o">+</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;School Score&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">w2</span> <span class="o">+</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Mart Score&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">w3</span> <span class="o">+</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Transport Score&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">w4</span>
+<span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">w1</span> <span class="o">+</span> <span class="n">w2</span> <span class="o">+</span> <span class="n">w3</span> <span class="o">+</span> <span class="n">w4</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="property-recommendation-pipeline">
+<h2>Property Recommendation Pipeline<a class="headerlink" href="#property-recommendation-pipeline" title="Link to this heading"></a></h2>
+<p>Final recommendations follow this pipeline:</p>
+<ol class="arabic simple">
+<li><p>Estimate maximum loan amount</p></li>
+<li><p>Compute total housing budget:
+<code class="docutils literal notranslate"><span class="pre">asset</span> <span class="pre">+</span> <span class="pre">max_loan</span></code></p></li>
+<li><p>Compute infrastructure scores</p></li>
+<li><p>Filter properties within budget</p></li>
+<li><p>Rank by combined lifestyle score</p></li>
+</ol>
+<p>This pipeline allows CasaNova to generate personalized, financially grounded property recommendations.</p>
+</section>
 </section>
 
 
@@ -87,7 +202,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="usage.html" class="btn btn-neutral float-left" title="How to Use" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="api_reference.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="api_reference.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

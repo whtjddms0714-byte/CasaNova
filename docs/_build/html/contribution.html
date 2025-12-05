@@ -20,8 +20,8 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="FAQ" href="faq.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="maintenance_troubleshooting.html" /> 
+    <link rel="next" title="Frequently Asked Questions (FAQ)" href="faq.html" />
+    <link rel="prev" title="Maintenance and Troubleshooting" href="maintenance_troubleshooting.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,14 +43,40 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About the Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">How to Use</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Technical Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="technical_overview.html">Technical Overview</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Contribution Guidelines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html"># 릴리즈 노트Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maintenance_troubleshooting.html">Maintenance and Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Information</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contribution Guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-get-started">How to Get Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#branching-strategy">Branching Strategy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#commit-message-standards">Commit Message Standards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pull-request-pr-process">Pull Request (PR) Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#coding-style-guidelines">Coding Style Guidelines</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#backend-python">Backend (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#frontend-typescript-react">Frontend (TypeScript + React)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#general-rules">General Rules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-guidelines">Testing Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#issue-reporting">Issue Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#community-standards">Community Standards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#thank-you">Thank You</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
         </div>
@@ -79,15 +105,187 @@
              
   <section id="contribution-guidelines">
 <h1>Contribution Guidelines<a class="headerlink" href="#contribution-guidelines" title="Link to this heading"></a></h1>
-<p>기여 절차, 코딩 컨벤션, PR 방법 등.</p>
+<p>Thank you for your interest in contributing to CasaNova!
+We welcome developers, designers, and data contributors of all experience levels.</p>
+<p>This document outlines the workflow, coding standards, and review policies
+for contributing to the CasaNova open-source project.</p>
+<section id="how-to-get-started">
+<h2>How to Get Started<a class="headerlink" href="#how-to-get-started" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Fork the repository on GitHub</p></li>
+<li><p>Clone your fork:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/&lt;username&gt;/CasaNova.git
+<span class="nb">cd</span><span class="w"> </span>CasaNova
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Create a feature branch</p></li>
+<li><p>Commit changes following the commit message format</p></li>
+<li><p>Submit a Pull Request (PR) for review</p></li>
+</ol>
+</section>
+<section id="branching-strategy">
+<h2>Branching Strategy<a class="headerlink" href="#branching-strategy" title="Link to this heading"></a></h2>
+<p>CasaNova follows a lightweight variation of <strong>GitHub Flow</strong>.</p>
+<ul class="simple">
+<li><p><strong>main</strong>
+Contains stable and deployable code. All production-ready code lives here.</p></li>
+<li><p><strong>feature branches</strong>
+All new code must be implemented in a separate branch:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="o">/</span><span class="n">issue</span><span class="o">-</span><span class="n">number</span><span class="o">-</span><span class="n">short</span><span class="o">-</span><span class="n">description</span>
+</pre></div>
+</div>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">feat/12-add-loan-engine</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fix/30-loan-rate-bug</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs/25-update-api-reference</span></code></p></li>
+</ul>
+</section>
+<section id="commit-message-standards">
+<h2>Commit Message Standards<a class="headerlink" href="#commit-message-standards" title="Link to this heading"></a></h2>
+<p>Commits must use imperative mood:</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">financial</span> <span class="pre">scoring</span> <span class="pre">function</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Fix</span> <span class="pre">distance</span> <span class="pre">calculation</span> <span class="pre">error</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Update</span> <span class="pre">API</span> <span class="pre">documentation</span></code></p></li>
+</ul>
+<p>Rules:</p>
+<ul class="simple">
+<li><p>Keep the subject short (≤ 50 characters)</p></li>
+<li><p>Body required for non-trivial changes</p></li>
+<li><p>Explain <em>why</em> the change was needed</p></li>
+</ul>
+</section>
+<section id="pull-request-pr-process">
+<h2>Pull Request (PR) Process<a class="headerlink" href="#pull-request-pr-process" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Push your branch to your fork</p></li>
+<li><p>Open a Pull Request targeting <strong>main</strong></p></li>
+<li><p>Add a descriptive title and summary</p></li>
+<li><p>Request reviews</p></li>
+</ol>
+<p>Minimum requirements:</p>
+<ul class="simple">
+<li><p><strong>At least 2 approvals</strong> from maintainers</p></li>
+<li><p>All CI checks (if configured) must pass</p></li>
+<li><p>No merge conflicts</p></li>
+</ul>
+<p>PR Template Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Summary</span>
+<span class="n">Describe</span> <span class="n">the</span> <span class="n">purpose</span> <span class="n">of</span> <span class="n">this</span> <span class="n">PR</span><span class="o">.</span>
+
+<span class="c1">## Changes</span>
+<span class="o">-</span> <span class="n">Added</span> <span class="o">...</span>
+<span class="o">-</span> <span class="n">Updated</span> <span class="o">...</span>
+
+<span class="c1">## Related Issues</span>
+<span class="n">Closes</span> <span class="c1">#&lt;issue-number&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="coding-style-guidelines">
+<h2>Coding Style Guidelines<a class="headerlink" href="#coding-style-guidelines" title="Link to this heading"></a></h2>
+<section id="backend-python">
+<h3>Backend (Python)<a class="headerlink" href="#backend-python" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Follow <strong>PEP8</strong> conventions</p></li>
+<li><p>Automated formatting using <strong>Black</strong>:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>black<span class="w"> </span>.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Lint with <strong>Flake8</strong>:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>flake8<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+<section id="frontend-typescript-react">
+<h3>Frontend (TypeScript + React)<a class="headerlink" href="#frontend-typescript-react" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Use <strong>ESLint + Prettier</strong></p></li>
+<li><p>Prefer functional components and hooks</p></li>
+<li><p>Keep components small and modular</p></li>
+<li><p>Avoid unnecessary re-renders (React.memo where applicable)</p></li>
+</ul>
+</section>
+<section id="general-rules">
+<h3>General Rules<a class="headerlink" href="#general-rules" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Write clear, self-documenting code</p></li>
+<li><p>Add comments where logic is non-obvious</p></li>
+<li><p>Update documentation when APIs or features change</p></li>
+</ul>
+</section>
+</section>
+<section id="testing-guidelines">
+<h2>Testing Guidelines<a class="headerlink" href="#testing-guidelines" title="Link to this heading"></a></h2>
+<p>Testing ensures reliability and stability.</p>
+<p>Backend:</p>
+<ul class="simple">
+<li><p>Unit test financial formulas</p></li>
+<li><p>Test loan eligibility logic</p></li>
+<li><p>Validate distance-based infrastructure calculations</p></li>
+</ul>
+<p>Frontend:</p>
+<ul class="simple">
+<li><p>Snapshot tests for components</p></li>
+<li><p>API mock tests</p></li>
+<li><p>Input validation tests</p></li>
+</ul>
+<p>Run all tests before requesting a review.</p>
+</section>
+<section id="issue-reporting">
+<h2>Issue Reporting<a class="headerlink" href="#issue-reporting" title="Link to this heading"></a></h2>
+<p>Before opening an issue:</p>
+<ol class="arabic simple">
+<li><p>Check existing issues</p></li>
+<li><p>Clearly describe the problem</p></li>
+<li><p>Provide reproduction steps</p></li>
+<li><p>Include stack traces or screenshot evidence</p></li>
+</ol>
+<p>Issue Types:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bug</span></code> — Incorrect behavior</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feature</span></code> — Request for new functionality</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">documentation</span></code> — Docs or comment improvements</p></li>
+</ul>
+</section>
+<section id="community-standards">
+<h2>Community Standards<a class="headerlink" href="#community-standards" title="Link to this heading"></a></h2>
+<p>CasaNova follows a welcoming and inclusive community philosophy.</p>
+<p>Contributors must follow:</p>
+<ul class="simple">
+<li><p><strong>CONTRIBUTING.md</strong></p></li>
+<li><p><strong>CODE_OF_CONDUCT.md</strong></p></li>
+</ul>
+<p>Expected behavior:</p>
+<ul class="simple">
+<li><p>Respect other contributors</p></li>
+<li><p>Provide constructive feedback</p></li>
+<li><p>Avoid personal attacks or toxic behavior</p></li>
+</ul>
+</section>
+<section id="thank-you">
+<h2>Thank You<a class="headerlink" href="#thank-you" title="Link to this heading"></a></h2>
+<p>Your contributions make CasaNova better for everyone!
+Whether you fix a typo, improve documentation, or develop a new algorithm—
+<strong>we appreciate every contribution.</strong></p>
+<p>End of Contribution Guidelines.</p>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="maintenance_troubleshooting.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="faq.html" class="btn btn-neutral float-right" title="FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="maintenance_troubleshooting.html" class="btn btn-neutral float-left" title="Maintenance and Troubleshooting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="faq.html" class="btn btn-neutral float-right" title="Frequently Asked Questions (FAQ)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

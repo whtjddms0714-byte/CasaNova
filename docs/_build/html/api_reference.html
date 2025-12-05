@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; CasaNova 0.1.0 documentation</title>
+  <title>API Reference &mdash; CasaNova 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -20,8 +20,8 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="configuration.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="technical_overview.html" /> 
+    <link rel="next" title="Configuration Guide" href="configuration.html" />
+    <link rel="prev" title="Technical Overview" href="technical_overview.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,10 +43,37 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul class="simple">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About the Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to Use</a></li>
 </ul>
-</div>
+<p class="caption" role="heading"><span class="caption-text">Technical Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="technical_overview.html">Technical Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#base-url">Base URL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authentication">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#endpoints-overview">Endpoints Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#user-financial-analysis-api">1. User Financial Analysis API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loan-recommendation-api">2. Loan Recommendation API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#property-recommendation-api">3. Property Recommendation API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#response-codes">Response Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#error-response-example">Error Response Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maintenance_troubleshooting.html">Maintenance and Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -61,7 +88,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="breadcrumb-item active">API Reference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/api_reference.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -71,14 +98,184 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <p># API 문서</p>
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
+<p>This document provides the API specification for CasaNova’s backend service.
+All endpoints follow RESTful conventions and return JSON responses.</p>
+<section id="base-url">
+<h2>Base URL<a class="headerlink" href="#base-url" title="Link to this heading"></a></h2>
+<p>For local development:</p>
+<p><code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8000/api/</span></code></p>
+</section>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Link to this heading"></a></h2>
+<p>All current endpoints are <strong>open</strong> for development purposes.
+Future versions may require:</p>
+<ul class="simple">
+<li><p>Token-based authentication</p></li>
+<li><p>OAuth2 or JWT integration</p></li>
+</ul>
+</section>
+<section id="endpoints-overview">
+<h2>Endpoints Overview<a class="headerlink" href="#endpoints-overview" title="Link to this heading"></a></h2>
+<p>The CasaNova backend exposes APIs across three domains:</p>
+<ol class="arabic simple">
+<li><p><strong>User Financial Analysis</strong></p></li>
+<li><p><strong>Loan Simulation &amp; Recommendation</strong></p></li>
+<li><p><strong>Property Scoring &amp; Recommendation</strong></p></li>
+</ol>
+<p>The sections below describe each endpoint in detail.</p>
+</section>
+<hr class="docutils" />
+<section id="user-financial-analysis-api">
+<h2>1. User Financial Analysis API<a class="headerlink" href="#user-financial-analysis-api" title="Link to this heading"></a></h2>
+<p>### <strong>POST /api/financial/analysis/</strong></p>
+<p>Evaluates the user’s financial profile and computes:</p>
+<ul class="simple">
+<li><p>Available monthly repayment capacity (after DSR)</p></li>
+<li><p>Maximum loan amount</p></li>
+<li><p>Final recommended housing budget</p></li>
+</ul>
+<p><strong>Request Body Example</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;income_monthly&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2500000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;income_annual&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30000000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30000000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;existing_debt&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;existing_annual_payment&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;credit_score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">650</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dsr_ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.4</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response Example</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;monthly_repayment_capacity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_loan_amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">123500000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;recommended_budget&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">153500000</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="loan-recommendation-api">
+<h2>2. Loan Recommendation API<a class="headerlink" href="#loan-recommendation-api" title="Link to this heading"></a></h2>
+<p>### <strong>GET /api/loans/</strong></p>
+<p>Returns the list of available loan products loaded from an external financial
+dataset or API (e.g., open financial data, institutional disclosures, or
+locally maintained loan product tables).</p>
+<p><strong>Sample Response (truncated)</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sample Youth Housing Loan&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;rate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.021</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;years&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;preferential_condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Youth / first-job support&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;min_income&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2000000</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;min_credit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">600</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="err">...</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>### <strong>POST /api/loans/recommend/</strong></p>
+<p>Computes personalized loan recommendations using CasaNova’s scoring algorithm.</p>
+<p><strong>Request Body Example</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;income_monthly&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2500000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;credit_score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">650</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;married&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;first_job&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dsr_ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.4</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response Example</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Dream Home 12&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">85.23</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;max_loan&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">123500000</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Dream Home 44&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">80.51</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;max_loan&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">117200000</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="property-recommendation-api">
+<h2>3. Property Recommendation API<a class="headerlink" href="#property-recommendation-api" title="Link to this heading"></a></h2>
+<p>### <strong>POST /api/properties/recommend/</strong></p>
+<p>Returns ranked property recommendations based on:</p>
+<ul class="simple">
+<li><p>Financial limit (total budget)</p></li>
+<li><p>Vectorized infrastructure scoring</p></li>
+<li><p>Lifestyle weights</p></li>
+</ul>
+<p><strong>Request Body Example</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30000000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;selected_loan&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">120000000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;weights&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;target_gu&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;강남구&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response Example</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;recommended_properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;서울 강남구 …&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;building&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;○○아파트&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">22000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;infrastructure_score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">87.5</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="response-codes">
+<h2>Response Codes<a class="headerlink" href="#response-codes" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>200 OK</strong> — Successful request</p></li>
+<li><p><strong>400 Bad Request</strong> — Missing or invalid parameters</p></li>
+<li><p><strong>500 Internal Server Error</strong> — Server-side computation issues</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="error-response-example">
+<h2>Error Response Example<a class="headerlink" href="#error-response-example" title="Link to this heading"></a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Invalid credit score. Must be &gt;= 300.&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>The API structure described here reflects the planned design for CasaNova.</p></li>
+<li><p>Actual implementation details may evolve as the project scales.</p></li>
+<li><p>Loan product data is loaded from external financial datasets or APIs and is not hard-coded in the source code.</p></li>
+<li><p>Frontend clients should not rely on internal scoring logic, only on returned results.</p></li>
+</ul>
+<p>End of API Reference.</p>
+</section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="technical_overview.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="configuration.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="technical_overview.html" class="btn btn-neutral float-left" title="Technical Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="configuration.html" class="btn btn-neutral float-right" title="Configuration Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

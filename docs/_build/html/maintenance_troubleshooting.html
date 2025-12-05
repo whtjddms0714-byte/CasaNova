@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; CasaNova 0.1.0 documentation</title>
+  <title>Maintenance and Troubleshooting &mdash; CasaNova 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -20,8 +20,8 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="contribution.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="configuration.html" /> 
+    <link rel="next" title="Contribution Guidelines" href="contribution.html" />
+    <link rel="prev" title="Configuration Guide" href="configuration.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,10 +43,46 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul class="simple">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About the Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to Use</a></li>
 </ul>
-</div>
+<p class="caption" role="heading"><span class="caption-text">Technical Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="technical_overview.html">Technical Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Maintenance and Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#routine-maintenance-tasks">Routine Maintenance Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#database-management">Database Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#log-file-maintenance">Log File Maintenance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dataset-updates">Dataset Updates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dependency-maintenance">Dependency Maintenance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#common-issues-and-solutions">Common Issues and Solutions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#backend-fails-to-start">Backend Fails to Start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#frontend-cannot-connect-to-backend">Frontend Cannot Connect to Backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loan-recommendation-returns-empty-results">Loan Recommendation Returns Empty Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#property-recommendation-list-is-empty">Property Recommendation List Is Empty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#performance-issues">Performance Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#service-monitoring-tips">Service Monitoring Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#disaster-recovery">Disaster Recovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#end-of-maintenance-troubleshooting-guide">End of Maintenance &amp; Troubleshooting Guide</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -61,7 +97,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="breadcrumb-item active">Maintenance and Troubleshooting</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/maintenance_troubleshooting.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -71,14 +107,184 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <p># 유지보수 &amp; 문제 해결</p>
+  <section id="maintenance-and-troubleshooting">
+<h1>Maintenance and Troubleshooting<a class="headerlink" href="#maintenance-and-troubleshooting" title="Link to this heading"></a></h1>
+<p>This guide provides routine maintenance procedures and solutions to common issues
+encountered while running or developing the CasaNova system.</p>
+<p>CasaNova consists of both backend and frontend services, as well as multiple datasets.
+Proper maintenance ensures reliable performance and stable recommendation results.</p>
+<section id="routine-maintenance-tasks">
+<h2>Routine Maintenance Tasks<a class="headerlink" href="#routine-maintenance-tasks" title="Link to this heading"></a></h2>
+<section id="database-management">
+<h3>Database Management<a class="headerlink" href="#database-management" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Run migrations when models change</strong></p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>manage.py<span class="w"> </span>makemigrations
+python<span class="w"> </span>manage.py<span class="w"> </span>migrate
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Backup the database regularly</strong></p></li>
+</ol>
+<p>Schedule automatic database dumps (MySQL example):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mysqldump<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>-p<span class="w"> </span>casanova<span class="w"> </span>&gt;<span class="w"> </span>backup.sql
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>Monitor DB size and indexing</strong></p></li>
+</ol>
+<p>Large datasets (real estate or infrastructure data) may require indexing to maintain performance.</p>
+</section>
+<section id="log-file-maintenance">
+<h3>Log File Maintenance<a class="headerlink" href="#log-file-maintenance" title="Link to this heading"></a></h3>
+<p>CasaNova may generate log files such as:</p>
+<ul class="simple">
+<li><p>API request logs</p></li>
+<li><p>Error logs</p></li>
+<li><p>Performance metrics</p></li>
+</ul>
+<p>Perform:</p>
+<ul class="simple">
+<li><p>Weekly rotation</p></li>
+<li><p>Archiving of old logs</p></li>
+<li><p>Optional upload to a monitoring system such as ELK or CloudWatch</p></li>
+</ul>
+</section>
+<section id="dataset-updates">
+<h3>Dataset Updates<a class="headerlink" href="#dataset-updates" title="Link to this heading"></a></h3>
+<p>Infrastructure datasets (parks, marts, schools, stations) and
+real estate property listings should be updated periodically.</p>
+<p>Recommended procedure:</p>
+<ol class="arabic simple">
+<li><p>Place new CSV files in the <cite>data/</cite> directory</p></li>
+<li><p>Validate schema consistency</p></li>
+<li><p>Run preprocessing scripts (if applicable)</p></li>
+<li><p>Restart backend services</p></li>
+</ol>
+</section>
+<section id="dependency-maintenance">
+<h3>Dependency Maintenance<a class="headerlink" href="#dependency-maintenance" title="Link to this heading"></a></h3>
+<p>Updating dependencies ensures security and compatibility.</p>
+<p>Backend:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>list<span class="w"> </span>--outdated
+pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>&lt;package&gt;
+</pre></div>
+</div>
+<p>Frontend:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>outdated
+npm<span class="w"> </span>update
+</pre></div>
+</div>
+</section>
+</section>
+<section id="common-issues-and-solutions">
+<h2>Common Issues and Solutions<a class="headerlink" href="#common-issues-and-solutions" title="Link to this heading"></a></h2>
+<section id="backend-fails-to-start">
+<h3>Backend Fails to Start<a class="headerlink" href="#backend-fails-to-start" title="Link to this heading"></a></h3>
+<p><strong>Cause 1:</strong> Missing or incorrect <cite>.env</cite> values
+<strong>Solution:</strong> Ensure required environment variables are set:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DJANGO_SECRET_KEY</span><span class="p">,</span> <span class="n">DB_NAME</span><span class="p">,</span> <span class="n">DB_USER</span><span class="p">,</span> <span class="n">DB_PASSWORD</span><span class="p">,</span> <span class="n">DB_HOST</span>
+</pre></div>
+</div>
+<p><strong>Cause 2:</strong> Database not running
+<strong>Solution:</strong> Start MySQL server and verify connection:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mysql<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>-p<span class="w"> </span>-h<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span>-P<span class="w"> </span><span class="m">3306</span>
+</pre></div>
+</div>
+<p><strong>Cause 3:</strong> Migration conflicts
+<strong>Solution:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>-rf<span class="w"> </span>migrations/*
+python<span class="w"> </span>manage.py<span class="w"> </span>makemigrations
+python<span class="w"> </span>manage.py<span class="w"> </span>migrate
+</pre></div>
+</div>
+</section>
+<section id="frontend-cannot-connect-to-backend">
+<h3>Frontend Cannot Connect to Backend<a class="headerlink" href="#frontend-cannot-connect-to-backend" title="Link to this heading"></a></h3>
+<p><strong>Cause:</strong> Incorrect API base URL in <cite>.env</cite>
+<strong>Solution:</strong> Confirm:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">VITE_API_BASE_URL</span><span class="o">=</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">127.0.0.1</span><span class="p">:</span><span class="mi">8000</span><span class="o">/</span><span class="n">api</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>Then rebuild frontend:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>run<span class="w"> </span>dev
+</pre></div>
+</div>
+</section>
+<section id="loan-recommendation-returns-empty-results">
+<h3>Loan Recommendation Returns Empty Results<a class="headerlink" href="#loan-recommendation-returns-empty-results" title="Link to this heading"></a></h3>
+<p>Possible causes:</p>
+<ol class="arabic simple">
+<li><p>User does not meet minimum income or credit requirements</p></li>
+<li><p>DSR ratio too low</p></li>
+<li><p>Incorrect loan preference flags</p></li>
+</ol>
+<p><strong>Solution:</strong></p>
+<ul class="simple">
+<li><p>Validate user data</p></li>
+<li><p>Print intermediate values for debugging</p></li>
+<li><p>Adjust DSR ratio if necessary</p></li>
+</ul>
+</section>
+<section id="property-recommendation-list-is-empty">
+<h3>Property Recommendation List Is Empty<a class="headerlink" href="#property-recommendation-list-is-empty" title="Link to this heading"></a></h3>
+<p><strong>Cause 1:</strong> No properties fall within the computed budget
+<strong>Solution:</strong> Increase asset value or loan limit for testing</p>
+<p><strong>Cause 2:</strong> Missing dataset columns
+<strong>Solution:</strong> Ensure required columns exist:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;위도&#39;</span><span class="p">,</span> <span class="s1">&#39;경도&#39;</span><span class="p">,</span> <span class="s1">&#39;물건금액(만원)&#39;</span><span class="p">,</span> <span class="s1">&#39;주소&#39;</span><span class="p">,</span> <span class="s1">&#39;건물명&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Cause 3:</strong> Infrastructure distance functions failed
+<strong>Solution:</strong> Test distance functions independently:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">haversine_vec</span><span class="p">(</span><span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-issues">
+<h3>Performance Issues<a class="headerlink" href="#performance-issues" title="Link to this heading"></a></h3>
+<p><strong>Symptom:</strong> Slow response during recommendation calculations
+<strong>Cause:</strong> Large dataset size or unoptimized vectorized functions
+<strong>Solutions:</strong></p>
+<ol class="arabic simple">
+<li><p>Use NumPy vectorized operations</p></li>
+<li><p>Pre-cache distance matrices</p></li>
+<li><p>Apply indexing on frequently queried columns</p></li>
+</ol>
+</section>
+</section>
+<section id="service-monitoring-tips">
+<h2>Service Monitoring Tips<a class="headerlink" href="#service-monitoring-tips" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Track API response times</p></li>
+<li><p>Monitor server CPU/memory usage</p></li>
+<li><p>Log frequency of loan and property recommendation requests</p></li>
+<li><p>Validate dataset accuracy after updates</p></li>
+</ul>
+</section>
+<section id="disaster-recovery">
+<h2>Disaster Recovery<a class="headerlink" href="#disaster-recovery" title="Link to this heading"></a></h2>
+<p>In the event of system failure:</p>
+<ol class="arabic simple">
+<li><p>Restore database from latest dump</p></li>
+<li><p>Reinstall dependencies using <cite>requirements.txt</cite> and <cite>package.json</cite></p></li>
+<li><p>Rebuild frontend assets</p></li>
+<li><p>Run Django migrations</p></li>
+<li><p>Test core API endpoints before going live</p></li>
+</ol>
+</section>
+<section id="end-of-maintenance-troubleshooting-guide">
+<h2>End of Maintenance &amp; Troubleshooting Guide<a class="headerlink" href="#end-of-maintenance-troubleshooting-guide" title="Link to this heading"></a></h2>
+</section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="configuration.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="contribution.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="configuration.html" class="btn btn-neutral float-left" title="Configuration Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="contribution.html" class="btn btn-neutral float-right" title="Contribution Guidelines" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
