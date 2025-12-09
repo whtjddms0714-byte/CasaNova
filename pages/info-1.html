@@ -136,7 +136,8 @@ permalink: /info-1/ # <-- 슬래시(/)가 포함된 경로가 맞는지 확인
   const errorBox = document.getElementById("error-message");
   const priorityList = document.getElementById("priority-list");
   const skipLoanButton = document.getElementById("skip-loan");
-
+  const LOAN_URL = "{{ '/loan/' | relative_url }}";
+  const PROPERTY_URL = "{{ '/properties/' | relative_url }}";
   // ----------------------------------------------------
   // 드래그 앤 드롭 로직 (간단 구현)
   // ----------------------------------------------------
