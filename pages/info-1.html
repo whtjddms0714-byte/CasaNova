@@ -137,6 +137,8 @@ permalink: /info-1/  # Make sure this matches your JS redirects
   const priorityList = document.getElementById("priority-list");
   const skipLoanButton = document.getElementById("skip-loan");
 
+  const LOAN_URL = "{{ '/loans.html' | relative_url }}";
+  const PROPERTY_URL = "{{ '/properties.html' | relative_url }}";
   // ----------------------------------------------------
   // Drag & drop logic (simple implementation)
   // ----------------------------------------------------
@@ -293,7 +295,7 @@ permalink: /info-1/  # Make sure this matches your JS redirects
 
     localStorage.setItem("casanova_user_info", JSON.stringify(userInfo));
 
-    window.location.href = "/loans.html";
+    window.location.href = LOAN_URL;
   });
 
   // ----------------------------------------------------
@@ -309,6 +311,6 @@ permalink: /info-1/  # Make sure this matches your JS redirects
       JSON.stringify(0)
     );
 
-    window.location.href = "/properties.html";
+    window.location.href = PROPERTY_URL;
   });
 </script>
