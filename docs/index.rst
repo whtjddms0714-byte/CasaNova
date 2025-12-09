@@ -1,11 +1,19 @@
 CasaNova Documentation
 ======================
 
-Welcome to the official documentation for **CasaNova: Financial-Based Personalized Housing Recommendation System**.
+Welcome to the documentation for **CasaNova: Financial-Based Personalized Housing Recommendation System**.
 
-CasaNova is an open-source platform designed to help young adults in their 20s determine a realistic housing budget based on financial simulations and personalized lifestyle matching.
+CasaNova is a web-based system that:
 
-This documentation provides installation instructions, technical architecture details, API specifications, configuration manuals, contribution guidelines, and release notes.
+- analyzes a user's financial status to estimate a realistic housing budget, and  
+- recommends properties based on accessibility to key infrastructure (transportation, schools, parks, marts).
+
+The project consists of:
+
+- a Django-based backend providing JSON APIs,
+- an engine layer for financial and infrastructure scoring logic,
+- CSV-based datasets for properties and infrastructure, and
+- a static Jekyll website for the user-facing simulator.
 
 ------------------------------------------------------------
 Contents
@@ -40,24 +48,13 @@ Contents
 Project Overview
 ------------------------------------------------------------
 
-CasaNova integrates:
+CasaNova provides:
 
-- **Financial Simulation Engine** (loan eligibility, DSR-based repayment logic)
-- **Lifestyle Matching Algorithm** (distance-based infrastructure scoring)
-- **Housing Budget Visualization & Recommendation**
-- **Mock loan dataset of 150 products**
-- **Vectorized NumPy computation pipeline for performance**
+- a **loan recommendation engine** using DSR-based capacity and eligibility rules,
+- a **property recommendation engine** using distance-based infrastructure scoring, and
+- a **simple three-step web workflow** (input → loan selection → property results).
 
-CasaNova is fully open-source and encourages developers to contribute improvements,
-algorithm enhancements, UI/UX extensions, or real-estate data integrations.
-
-------------------------------------------------------------
-Getting Help
-------------------------------------------------------------
-
-- For common issues, refer to: :doc:`faq`
-- For API usage, refer to: :doc:`api_reference`
-- To contribute, read: :doc:`contribution`
+This documentation describes how to install, configure, and extend CasaNova.
 
 ------------------------------------------------------------
 Index
@@ -65,3 +62,4 @@ Index
 
 * :ref:`genindex`
 * :ref:`search`
+
