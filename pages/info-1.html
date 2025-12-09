@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Find Home - Info 1"
-permalink: /info-1/  # <-- 슬래시(/)가 포함된 경로가 맞는지 확인
+permalink: /info-1/
 ---
 
 <h1>CasaNova 시뮬레이터</h1>
@@ -53,19 +53,7 @@ permalink: /info-1/  # <-- 슬래시(/)가 포함된 경로가 맞는지 확인
       <label>희망 지역 (구 이름, 예: 강남구)
         <input type="text" id="target_gu" placeholder="예: 강남구" />
       </label>
-      
-      <div style="margin-top: 30px;">
-        <h3>대출 여부 선택</h3>
-        <label style="display: block; margin-bottom: 10px;">
-          <input type="radio" name="loan_choice" value="yes" checked style="width: auto; margin-right: 5px;" />
-          대출을 한다
-        </label>
-        <label style="display: block;">
-          <input type="radio" name="loan_choice" value="no" style="width: auto; margin-right: 5px;" />
-          대출 없이 자산만으로 부동산 추천
-        </label>
-      </div>
-
+      <!-- 🔻 여기 있던 "대출 여부 선택" 라디오 블록은 삭제됨 -->
     </div>
     
     <div class="input-card">
@@ -90,7 +78,9 @@ permalink: /info-1/  # <-- 슬래시(/)가 포함된 경로가 맞는지 확인
       <p style="margin-top: 20px; font-size: 0.8em; color: #888;">* 1위: 가중치 4, 4위: 가중치 1로 자동 반영됩니다.</p>
     </div>
 
-  </div> <p id="error-message" style="color: red; margin-top: 20px; text-align: center;"></p>
+  </div>
+
+  <p id="error-message" style="color: red; margin-top: 20px; text-align: center;"></p>
 
   <div class="button-group">
     <button type="submit" class="btn-primary">대출 추천 받고 진행하기 →</button>
@@ -99,13 +89,13 @@ permalink: /info-1/  # <-- 슬래시(/)가 포함된 경로가 맞는지 확인
 </form>
 
 <script>
-const form = document.getElementById("user-form");
+  const form = document.getElementById("user-form");
   const errorBox = document.getElementById("error-message");
   const priorityList = document.getElementById("priority-list");
   const skipLoanButton = document.getElementById("skip-loan");
 
   // ----------------------------------------------------
-  // 드래그 앤 드롭 로직 (간단 구현)
+  // 드래그 앤 드롭 로직
   // ----------------------------------------------------
   let draggingItem = null;
 
@@ -119,7 +109,6 @@ const form = document.getElementById("user-form");
   priorityList.addEventListener("dragend", (e) => {
     e.target.classList.remove('dragging');
     draggingItem = null;
-    // 드래그가 끝났을 때 순위 번호 업데이트
     updatePriorityRanks();
   });
 
@@ -150,14 +139,12 @@ const form = document.getElementById("user-form");
     }, { offset: Number.NEGATIVE_INFINITY }).element;
   }
   
-  // 순위 번호를 업데이트하는 함수
   function updatePriorityRanks() {
-      const items = priorityList.querySelectorAll('.priority-item');
-      items.forEach((item, index) => {
-          item.querySelector('.priority-rank').textContent = `[${index + 1}]`;
-      });
+    const items = priorityList.querySelectorAll('.priority-item');
+    items.forEach((item, index) => {
+      item.querySelector('.priority-rank').textContent = `[${index + 1}]`;
+    });
   }
-
 
   // ----------------------------------------------------
   // 가중치 계산 로직
@@ -165,36 +152,30 @@ const form = document.getElementById("user-form");
   function getPriorityWeights() {
     const listItems = document.querySelectorAll("#priority-list .priority-item");
     
-    // 백엔드에서 요구하는 순서: w_park, w_school, w_mart, w_transport
     const weightsMap = {
-        "w_park": 0,
-        "w_school": 1,
-        "w_mart": 2,
-        "w_transport": 3
+      "w_park": 0,
+      "w_school": 1,
+      "w_mart": 2,
+      "w_transport": 3
     };
     
-    // [w_park, w_school, w_mart, w_transport] 순서로 저장될 배열 (초기값 0)
     const orderedWeights = [0, 0, 0, 0]; 
     
-    // 순위대로 4, 3, 2, 1 가중치 부여
     listItems.forEach((item, index) => {
-        const weightValue = 4 - index; // 1위: 4, 4위: 1
-        const key = item.getAttribute('data-key'); // data-key (w_park, w_school 등) 읽기
-        
-        // 올바른 순서대로 가중치를 배열에 삽입
-        if (weightsMap.hasOwnProperty(key)) {
-             orderedWeights[weightsMap[key]] = weightValue;
-        }
+      const weightValue = 4 - index; // 1위: 4, 4위: 1
+      const key = item.getAttribute('data-key');
+      if (weightsMap.hasOwnProperty(key)) {
+        orderedWeights[weightsMap[key]] = weightValue;
+      }
     });
     
     return orderedWeights; 
   }
 
   // ----------------------------------------------------
-  // 폼 제출 이벤트 (대출 추천 받고 진행하기)
+  // 공통: 사용자 입력 저장 함수
   // ----------------------------------------------------
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  function saveUserInfo() {
     errorBox.textContent = "";
 
     const income_monthly = Number(
@@ -218,12 +199,11 @@ const form = document.getElementById("user-form");
     const budget_limit = budget_limit_raw ? Number(budget_limit_raw) : null;
     const target_gu = document.getElementById("target_gu").value || "";
 
-    // ⭐️ 드래그 순서에 따른 가중치 계산
     const weights = getPriorityWeights();
 
     if (!income_monthly || !credit_score) {
       errorBox.textContent = "월 소득과 신용점수는 필수입니다.";
-      return;
+      return false;
     }
 
     const userInfo = {
@@ -237,38 +217,32 @@ const form = document.getElementById("user-form");
       asset,
       budget_limit,
       target_gu,
-      // ⭐️ weights 배열 사용
-      weights: weights, 
+      weights: weights,
     };
 
-    // localStorage에 저장
     localStorage.setItem("casanova_user_info", JSON.stringify(userInfo));
+    return true;
+  }
 
-    // 대출 여부에 따라 분기
-    const loanChoice = document.querySelector(
-      'input[name="loan_choice"]:checked'
-    ).value;
+  // ----------------------------------------------------
+  // 폼 제출: "대출 추천 받고 진행하기"
+  // ----------------------------------------------------
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!saveUserInfo()) return;
 
-    if (loanChoice === "yes") {
-      // 대출 추천 페이지로 이동
-      window.location.href = "/loans.html";
-    } else {
-      // 대출 없이 부동산 추천 → selected_loan_amount = 0으로 설정 후 바로 마지막 페이지로
-      localStorage.setItem("casanova_selected_loan_amount", JSON.stringify(0));
-      window.location.href = "/properties.html";
-    }
+    // 항상 "대출을 한다" 플로우 → 대출 추천 페이지
+    window.location.href = "/loans.html";
   });
 
-
   // ----------------------------------------------------
-  // 대출 없이 바로 매물 찾기 버튼 로직
+  // "대출 없이 바로 매물 찾기" 버튼
   // ----------------------------------------------------
   skipLoanButton.addEventListener("click", () => {
-    // 1. 대출 선택을 "no"로 강제 설정
-    document.querySelector('input[name="loan_choice"][value="no"]').checked = true;
+    if (!saveUserInfo()) return;
 
-    // 2. 폼 제출 이벤트 실행 (데이터 저장 및 페이지 이동 로직 실행)
-    const submitEvent = new Event('submit', { cancelable: true });
-    form.dispatchEvent(submitEvent);
+    // 대출 없이 진행 → 선택 대출금액을 0으로 저장 후 바로 매물 페이지로
+    localStorage.setItem("casanova_selected_loan_amount", JSON.stringify(0));
+    window.location.href = "/properties.html";
   });
 </script>
