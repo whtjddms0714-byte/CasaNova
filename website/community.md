@@ -1,11 +1,7 @@
 ---
 layout: page
 title: "Community"
-<<<<<<< HEAD
 markdown: kramdown
-=======
-markdown: kramdown 
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
 ---
 
 # CasaNova Community
