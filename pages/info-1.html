@@ -4,7 +4,7 @@
   const priorityList = document.getElementById("priority-list");
   const skipLoanButton = document.getElementById("skip-loan");
 
-  // ✅ 실제 파일 위치에 맞춘 경로 (pages/loans.html, pages/properties.html)
+  // ✅ Jekyll permalink 기준 경로
   const LOAN_URL = "{{ '/loans.html' | relative_url }}";
   const PROPERTY_URL = "{{ '/properties.html' | relative_url }}";
 
@@ -23,7 +23,6 @@
   priorityList.addEventListener("dragend", (e) => {
     e.target.classList.remove("dragging");
     draggingItem = null;
-    // 드래그가 끝났을 때 순위 번호 업데이트
     updatePriorityRanks();
   });
 
@@ -63,7 +62,6 @@
     ).element;
   }
 
-  // 순위 번호를 업데이트하는 함수
   function updatePriorityRanks() {
     const items = priorityList.querySelectorAll(".priority-item");
     items.forEach((item, index) => {
@@ -71,15 +69,11 @@
     });
   }
 
-  // ----------------------------------------------------
-  // 가중치 계산 로직
-  // ----------------------------------------------------
   function getPriorityWeights() {
     const listItems = document.querySelectorAll(
       "#priority-list .priority-item"
     );
 
-    // 백엔드에서 요구하는 순서: w_park, w_school, w_mart, w_transport
     const weightsMap = {
       w_park: 0,
       w_school: 1,
@@ -87,15 +81,12 @@
       w_transport: 3,
     };
 
-    // [w_park, w_school, w_mart, w_transport] 순서로 저장될 배열 (초기값 0)
     const orderedWeights = [0, 0, 0, 0];
 
-    // 순위대로 4, 3, 2, 1 가중치 부여
     listItems.forEach((item, index) => {
-      const weightValue = 4 - index; // 1위: 4, 4위: 1
-      const key = item.getAttribute("data-key"); // data-key (w_park, w_school 등) 읽기
+      const weightValue = 4 - index;
+      const key = item.getAttribute("data-key");
 
-      // 올바른 순서대로 가중치를 배열에 삽입
       if (weightsMap.hasOwnProperty(key)) {
         orderedWeights[weightsMap[key]] = weightValue;
       }
@@ -104,9 +95,6 @@
     return orderedWeights;
   }
 
-  // ----------------------------------------------------
-  // 공통: 폼 데이터에서 userInfo 객체 만드는 함수
-  // ----------------------------------------------------
   function buildUserInfo() {
     errorBox.textContent = "";
 
@@ -131,7 +119,6 @@
     const budget_limit = budget_limit_raw ? Number(budget_limit_raw) : null;
     const target_gu = document.getElementById("target_gu").value || "";
 
-    // 드래그 순서에 따른 가중치
     const weights = getPriorityWeights();
 
     if (!income_monthly || !credit_score) {
@@ -154,38 +141,31 @@
     };
   }
 
-  // ----------------------------------------------------
-  // 폼 제출 이벤트 (대출 추천 받고 진행하기)
-  // ----------------------------------------------------
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const userInfo = buildUserInfo();
     if (!userInfo) return;
 
-    // localStorage에 저장
     localStorage.setItem("casanova_user_info", JSON.stringify(userInfo));
 
-    // ✅ 대출 추천 페이지로 이동 (pages/loans.html)
+    // ✅ 대출 추천 페이지로 이동
+    // 디버깅용: 실제 LOAN_URL 확인
+    console.log("LOAN_URL =", LOAN_URL);
     window.location.href = LOAN_URL;
   });
 
-  // ----------------------------------------------------
-  // 대출 없이 바로 매물 찾기 버튼 로직
-  // ----------------------------------------------------
   skipLoanButton.addEventListener("click", () => {
     const userInfo = buildUserInfo();
     if (!userInfo) return;
 
-    // 유저 정보 저장
     localStorage.setItem("casanova_user_info", JSON.stringify(userInfo));
-    // 대출 금액 0으로 설정
     localStorage.setItem(
       "casanova_selected_loan_amount",
       JSON.stringify(0)
     );
 
-    // ✅ 바로 부동산 추천 페이지로 이동 (pages/properties.html)
+    console.log("PROPERTY_URL =", PROPERTY_URL);
     window.location.href = PROPERTY_URL;
   });
 </script>
