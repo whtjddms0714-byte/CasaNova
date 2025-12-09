@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< Updated upstream
+
 # 설치 방법, 시작하기
 =======
 Getting Started
@@ -133,13 +132,12 @@ Backend Setup (Django API)
 The API will be available at: ``http://127.0.0.1:8000/``
 
 Frontend Setup (Vite + React/TypeScript)
-----------------------------------------
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
+
 
 .. code-block:: bash
 
    cd frontend
-<<<<<<< HEAD
+
    npm install
    npm run dev
 
@@ -183,8 +181,7 @@ Ensure these files exist and follow the schemas described in :doc:`technical_ove
 
 
 You are now ready to run CasaNova locally!
->>>>>>> Stashed changes
-=======
+
 
    # Install dependencies
    npm install
@@ -193,4 +190,4 @@ You are now ready to run CasaNova locally!
    npm run dev
 
 The web app will be available at: ``http://localhost:5173``
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
+
