@@ -1,5 +1,4 @@
 
-=======
 # 🏠 CasaNova: Financial-Based Personalized Housing Recommendation System
 
 **_New Home, New Start._**
