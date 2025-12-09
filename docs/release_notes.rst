@@ -15,88 +15,105 @@ Status: Active Development
 Overview
 --------
 
-This is the first public release of CasaNova, a financial-based housing recommendation system that uses real-world loan data rather than mock datasets
- designed to support young adults in determining
+This is the first public release of CasaNova, a financial-based housing
+recommendation system designed to support young adults in determining
 realistic housing budgets and making informed property decisions.
 
 Key Features
 ------------
 
 **1. Financial Simulation Engine**
-- Implementation of PMT-based loan calculation model  
-- DSR-based repayment capability estimation  
+
+- Implementation of a PMT-based loan calculation model  
+- DSR-based repayment capacity estimation  
 - Loan eligibility checks using income, credit score, and preferential conditions  
-- Integration of real financial loan products loaded from verified datasets or public APIs  
+- Ranking logic for multiple loan products  
 
 **2. Budget Calculation Module**
+
 - Total housing budget computed as:  
-  ``asset + max_loan``  
+
+  ``asset + selected_loan_amount``  
+
 - Integration with user-defined financial profiles  
-- Final budget visualization support (Chart.js placeholder)
+- Support for optional budget caps (in units of 10,000 KRW)
 
 **3. Infrastructure Scoring Engine**
+
 - Vectorized Haversine distance computation  
-- Scoring for: Park, School, Mart, Transport accessibility  
-- Weighted scoring system customizable by the user  
+- Scoring for: park, school, mart, transport accessibility  
+- Weighted scoring system configurable by the user  
 
 **4. Property Recommendation Engine**
-- Budget filtering  
-- Infrastructure score ranking  
-- Supports large datasets through NumPy vectorization  
 
-**5. CLI Interaction Mode**
-- Basic `main()` function for local testing  
-- Step-by-step loan and property recommendation process  
+- Budget-based filtering  
+- Infrastructure score ranking  
+- Support for CSV-based property datasets and vectorized NumPy operations  
+
+**5. Web-Based Workflow**
+
+- Three-step process:
+
+  - user profile input,
+  - loan recommendation and selection,
+  - property recommendation and display.
+
+- Jekyll-based static pages integrated with Django APIs  
 
 **6. Project Documentation Structure**
-- Complete ReadTheDocs documentation setup  
-- Pages include technical overview, API reference, configuration, and contribution guide  
+
+- ReadTheDocs documentation setup  
+- Pages for technical overview, API reference, configuration, and contribution guidelines  
 
 Enhancements
 ------------
 
-- Clean modular code structure for simulation, scoring, and recommendation  
-- Improved readability with refactored functions  
-- Dataset handling separated into well-defined preprocessing steps  
+- Clean modular engine structure separating finance, infra, and pipeline logic  
+- Separation of concerns between Django views and engine modules  
+- Centralized dataset loading through a dedicated data loader  
 
 Bug Fixes
 ---------
 
-- Fixed rounding behavior in loan calculations  
-- Corrected distance normalization for infrastructure walking-time simulation  
-- Resolved data type mismatch in eligibility checks  
+- Adjusted rounding behavior in loan calculations  
+- Corrected distance normalization for walking-time estimation  
+- Resolved data type mismatches in eligibility checks  
 
 Known Issues
 ------------
 
-- No real API endpoints implemented yet (Django integration planned)  
-- Dataset files must be manually placed in `data/` directory  
-- Some CLI prompts need validation logic  
-- Infrastructure scoring weight adjustment UI not yet implemented in frontend  
+- No persistent user account system implemented  
+- No production-grade authentication or authorization  
+- Datasets must be manually managed in the ``data/`` directory  
+- Frontend is a minimal reference implementation without advanced UI/UX features  
 
-------------------------------------------------------------
 Roadmap (Planned for Future Releases)
-------------------------------------------------------------
+-------------------------------------
 
 **Version 0.2.0**
-- Full Django REST API implementation  
-- Endpoints for loan simulation, property scoring, and recommendation  
-- Basic frontend integration with live API calls  
+
+- Full Django REST API structure with serializers and viewsets  
+- Additional endpoints for configuration and introspection  
+- Extended frontend integration with richer visualizations  
 
 **Version 0.3.0**
-- User authentication (JWT)  
-- Saved searches and user preference profiles  
-- UI/UX improvements for recommendation visualization  
+
+- User authentication (e.g. JWT or session-based)  
+- Saved searches and preference profiles  
+- Improved recommendation result visualization  
 
 **Version 0.4.0**
-- Real estate dataset integration (actual market property listings)  
-- Machine learning–based preference prediction models  
+
+- Integration with larger and richer real estate datasets  
+- Enhanced scoring models and optional machine learning support  
 
 **Version 1.0.0**
+
 - Production-ready release  
-- Full deployment documentation  
-- Performance tuning and scalable hosting model  
+- Deployment guides and best practices  
+- Performance tuning and horizontal scalability considerations  
 
 ------------------------------------------------------------
 End of Release Notes
 ------------------------------------------------------------
+
