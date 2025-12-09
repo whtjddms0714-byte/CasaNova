@@ -3,18 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <title>{{ page.title }} | {{ site.title }}</title>
-
-    <!-- 여기만 수정 -->
     <link
       rel="stylesheet"
-      href="{{ '/website/assets/css/style.css' | relative_url }}"
+      href="{{ '/assets/css/style.css' | relative_url }}"
     />
   </head>
   <body>
     {% include header.html %}
     <main>{{ content }}</main>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="{{ '/assets/js/casanova.js' | relative_url }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{{ '/assets/js/casanova.js' | relative_url }}"></script>
+
   </body>
 </html>
