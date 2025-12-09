@@ -78,8 +78,7 @@ def recommend_properties_view(request):
         df = calculate_distance(df, infra_dfs["park"], "Park (min)")
         df = calculate_distance(df, infra_dfs["mart"], "Mart (min)")
         df = calculate_distance(df, infra_dfs["school"], "School (min)")
-                # 🔧 마트/공원 거리 NaN이면 기본값(60분)으로 채우기
-        #    → 최소한 UI에서는 숫자가 보이게 하기 위함
+        # 🔧 마트/공원 거리 NaN이면 기본값(60분)으로 채우기
         for col in ["Mart (min)"]:
             if col in df.columns:
                 df[col] = df[col].fillna(60)
@@ -98,6 +97,18 @@ def recommend_properties_view(request):
             pd.notnull(recommended),
             None,
         )
+                # 🔍 3-1) 비정상 건물명 필터링 (예: (96), (113-1), -97 등)
+        import re
+        pattern = re.compile(r'^[()\-\d\s]+$')  # 숫자/괄호/하이픈/공백만 있는 이름
+
+        bad_mask = recommended["building_name"].astype(str).apply(
+            lambda v: bool(pattern.fullmatch(v.strip()))
+        )
+
+        # 디버그용: 몇 개 잘라냈는지 보고 싶으면
+        print("⚠ filtered weird building_name rows:", bad_mask.sum())
+        # 실제 필터 적용
+        recommended = recommended[~bad_mask]
 
         # 결과 없음 처리
         if recommended.empty:
