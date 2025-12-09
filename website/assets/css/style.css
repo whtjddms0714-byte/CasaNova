@@ -182,6 +182,7 @@ a:hover {
     font-size: 0.9em;
 }
 
+<<<<<<< HEAD
 
 
 /* Compatibility patch: ensure .card and legacy .link-card/.feature-card are styled */
@@ -517,3 +518,5 @@ input[type="number"], input[type="text"] {
     margin-bottom: 4px;
 }
 
+=======
+>>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3

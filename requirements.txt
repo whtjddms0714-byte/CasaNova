@@ -1,0 +1,4 @@
+"pandas" 
+# Sphinx Environment Requirements for ReadTheDocs Build
+sphinx
+sphinx-rtd-theme
