@@ -1,225 +1,118 @@
 Configuration Guide
 ===================
 
-This guide explains all configuration options for running the CasaNova system.
-It covers backend Django settings, environment variables, frontend configurations,
-and optional customization for development or production environments.
+This guide explains how to configure CasaNova for local development and
+customization.
 
-Overview
---------
+Django Settings
+---------------
 
-CasaNova consists of two separate applications:
+The main settings module is:
 
-1. **Backend** (Python + Django): Financial simulation engine, loan logic, and API layer  
-2. **Frontend** (React + TypeScript): User interface for visualization and property search  
+- ``casanova_server/settings.py``
 
-Proper configuration ensures both services operate smoothly and securely.
+Key options include:
 
--------------------------------------------------------------
-Backend Configuration (Django)
--------------------------------------------------------------
+- ``DEBUG``: development flag (default ``True``).
+- ``ALLOWED_HOSTS``: list of allowed hostnames in production.
+- ``INSTALLED_APPS``: includes ``casanova_app`` and ``corsheaders``.
+- ``MIDDLEWARE``: includes CORS middleware and standard Django middleware.
+- ``DATABASES``: default SQLite configuration.
+- ``LANGUAGE_CODE`` and ``TIME_ZONE``: localization and timezone.
 
-Environment Variables
----------------------
+CORS Configuration
+------------------
 
-The backend uses environment variables to load sensitive configuration data.
-Create a `.env` file in the project root with the following:
+The project enables cross-origin requests for development:
 
-::
+.. code-block:: python
 
-    DJANGO_SECRET_KEY=your-secret-key
-    DEBUG=True
-    DB_NAME=casanova
-    DB_USER=root
-    DB_PASSWORD=your-password
-    DB_HOST=localhost
-    DB_PORT=3306
+   INSTALLED_APPS += [
+       "corsheaders",
+   ]
 
-Description of Variables
-~~~~~~~~~~~~~~~~~~~~~~~~
+   MIDDLEWARE.insert(0, "corsheaders.middleware.CorsMiddleware")
 
-- **DJANGO_SECRET_KEY**  
-  Required for Django security (sessions, encryption). Must be unique per installation.
+   CORS_ALLOW_ALL_ORIGINS = True
 
-- **DEBUG**  
-  Set `True` for development, `False` for production.
+For production, you should restrict allowed origins using:
 
-- **DB_* variables**  
-  Configure the MySQL database used by Django.
+.. code-block:: python
+
+   CORS_ALLOW_ALL_ORIGINS = False
+   CORS_ALLOWED_ORIGINS = [
+       "https://your-frontend-domain",
+   ]
 
 Database Configuration
 ----------------------
 
-Example entry in `settings.py`:
+Default database (development):
 
 .. code-block:: python
 
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.getenv("DB_NAME"),
-            'USER': os.getenv("DB_USER"),
-            'PASSWORD': os.getenv("DB_PASSWORD"),
-            'HOST': os.getenv("DB_HOST", "localhost"),
-            'PORT': os.getenv("DB_PORT", 3306),
-        }
-    }
+   DATABASES = {
+       "default": {
+           "ENGINE": "django.db.backends.sqlite3",
+           "NAME": BASE_DIR / "db.sqlite3",
+       }
+   }
 
-Static Files
-------------
-
-Django collects static assets such as:
-
-- Loan product reference JSON  
-- Preprocessed infrastructure data  
-- UI assets (if served from backend)
-
-Run:
-
-.. code-block:: bash
-
-    python manage.py collectstatic
-
-API Configuration
------------------
-
-Optional API settings in `settings.py`:
+For production, you can switch to PostgreSQL or MySQL, for example:
 
 .. code-block:: python
 
-    API_BASE_URL = "/api/"
-    PAGINATION_SIZE = 50
-    ENABLE_LOGGING = True
+   DATABASES = {
+       "default": {
+           "ENGINE": "django.db.backends.postgresql",
+           "NAME": "casanova",
+           "USER": "casanova_user",
+           "PASSWORD": "password",
+           "HOST": "localhost",
+           "PORT": "5432",
+       }
+   }
 
-These can be customized depending on deployment needs.
+Data Files
+----------
 
--------------------------------------------------------------
-Frontend Configuration (React + Vite)
--------------------------------------------------------------
+CasaNova expects CSV datasets in a ``data/`` directory. Example layout:
 
-Project Configuration File
---------------------------
+.. code-block:: text
 
-The frontend uses **Vite** for configuration, controlled through:
+   data/
+   ├── estate.csv
+   ├── station.csv
+   ├── park.csv
+   ├── mart.csv
+   └── school.csv
 
-- `vite.config.ts`
-- `.env` files for environment variables
+You can replace these files with your own data as long as:
 
-Frontend Environment Variables
-------------------------------
+- column names remain consistent with the engine implementation, or
+- you adjust the engine code accordingly.
 
-Create `.env` files inside the `frontend/` directory:
+Frontend API Base URL
+---------------------
 
-**.env.development**
+In the Jekyll pages, the API base URL is defined in JavaScript:
 
-::
+.. code-block:: javascript
 
-    VITE_API_BASE_URL=http://127.0.0.1:8000/api/
-    VITE_ENV=development
+   const API_BASE = "http://127.0.0.1:8000/api";
 
-**.env.production**
+For deployment, this should be changed to the production backend URL.
 
-::
+Logging and Debugging
+---------------------
 
-    VITE_API_BASE_URL=https://your-production-url/api/
-    VITE_ENV=production
+For development:
 
-Using Variables in Code
-~~~~~~~~~~~~~~~~~~~~~~~
+- ``DEBUG = True`` provides detailed error pages.
+- You can add logging configuration to ``settings.py`` to track API calls and errors.
 
-.. code-block:: ts
+For production:
 
-    const api = import.meta.env.VITE_API_BASE_URL;
+- Set ``DEBUG = False``.
+- Configure logging and error reporting according to your environment.
 
-Available Frontend Configurations
----------------------------------
-
-- **API endpoint URL**
-- **Chart.js behavior options**
-- **Default UI theme**
-- **Default weight profiles for lifestyle preferences**
-
-Example:
-
-.. code-block:: ts
-
-    export const defaultWeights = [5, 4, 3, 2];
-
--------------------------------------------------------------
-Infrastructure Data Configuration
--------------------------------------------------------------
-
-CasaNova requires several datasets to compute infrastructure distances:
-
-- Park locations
-- School locations
-- Mart locations
-- Transportation nodes
-- Real estate listings
-
-These files are expected to exist as dataframes or CSV files loaded inside the backend.
-
-Example loading code:
-
-.. code-block:: python
-
-    df_estate = pd.read_csv("data/estate.csv")
-    station = pd.read_csv("data/station.csv")
-
-Paths may be customized through:
-
-.. code-block:: python
-
-    DATA_DIRECTORY = "data/"
-
--------------------------------------------------------------
-Loan Product Configuration
--------------------------------------------------------------
-
-CasaNova generates 150 mock loan products automatically:
-
-.. code-block:: python
-
-    loan_products = [
-        {"name": f"Dream Home {i}", "rate": 0.03 + 0.0001 * i}
-        for i in range(1, 151)
-    ]
-
-To change:
-
-- Number of products  
-- Rate increments  
-- Eligibility rules  
-
-Edit the loan generation section in the backend utility file.
-
--------------------------------------------------------------
-User Preference Configuration
--------------------------------------------------------------
-
-Default weighting profile:
-
-::
-
-    weights = [5, 4, 3, 2]  # Park, School, Mart, Transport
-
-Users may adjust these preferences in the frontend UI.
-Different default presets can be offered:
-
-- Balanced
-- Cost-efficient
-- Education-focused
-- Nature-focused
-
--------------------------------------------------------------
-Troubleshooting Configuration Issues
--------------------------------------------------------------
-
-- If backend fails to start → Check `.env` variables  
-- If frontend cannot reach backend → Check `VITE_API_BASE_URL`  
-- If infrastructure scores are missing → Ensure CSV datasets exist  
-- If loan results are empty → Verify eligibility requirements and DSR settings  
-
--------------------------------------------------------------
-End of Configuration Guide
--------------------------------------------------------------
