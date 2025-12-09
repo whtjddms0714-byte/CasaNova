@@ -182,3 +182,341 @@ a:hover {
     font-size: 0.9em;
 }
 
+<<<<<<< HEAD
+
+
+/* Compatibility patch: ensure .card and legacy .link-card/.feature-card are styled */
+.card {
+  background:#fff;
+  border-radius:8px;
+  border:1px solid var(--casa-nova-secondary);
+  padding:18px;
+  box-shadow:0 4px 6px rgba(0,0,0,0.05);
+}
+.link-card, .feature-card {
+  background-color: #ffffff;
+  border: 1px solid var(--casa-nova-secondary);
+  border-radius: 8px;
+  padding: 20px;
+  transition: transform 0.2s ease;
+  color: var(--casa-nova-text);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.link-card:hover, .feature-card:hover { transform: translateY(-5px); box-shadow:0 6px 12px rgba(0,0,0,0.1); }
+/* -------------------------------------
+   5. 📝 입력 그룹 및 폼 최적화 (Index Page)
+   ------------------------------------- */
+
+/* 메인 콘텐츠 영역을 섹션 카드 그리드로 활용 */
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* 최소 350px 너비로 자동 정렬 */
+    gap: 30px; 
+    margin-top: 20px;
+}
+
+/* 개별 입력 섹션 카드 스타일 */
+.input-card {
+    background-color: var(--casa-nova-secondary); /* 연한 하늘색 배경 */
+    border: 1px solid rgba(0, 102, 204, 0.15); /* Primary 색상의 옅은 테두리 */
+    border-radius: 12px; /* 기존 8px에서 조금 더 둥글게 */
+    padding: 30px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* 더 선명한 그림자 */
+}
+
+.input-card h2 {
+    color: var(--casa-nova-primary); /* 진한 파랑 제목 */
+    border-bottom: 2px solid var(--casa-nova-accent); /* Accent 색상으로 제목 밑줄 */
+    padding-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* 입력 필드 (Input) 스타일 */
+input[type="number"], input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+}
+
+/* 다음 단계 버튼 그룹 스타일 */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+/* Primary 버튼 스타일 */
+.btn-primary {
+    flex-grow: 1;
+    background-color: var(--casa-nova-primary);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #004c99; /* Primary보다 약간 어둡게 */
+}
+
+/* Secondary 버튼 (대출 없이 바로가기) */
+.btn-secondary {
+    flex-grow: 1;
+    background-color: #f0f0f0; 
+    color: var(--casa-nova-primary);
+    border: 1px solid var(--casa-nova-primary);
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: var(--casa-nova-primary);
+    color: white;
+}
+/* -------------------------------------
+   6. ⚠️ 경고/정보 메시지 카드 스타일 (Property Page)
+   ------------------------------------- */
+
+.result-not-found-card {
+    background-color: var(--casa-nova-secondary); /* 연한 하늘색 배경 */
+    border: 2px solid var(--casa-nova-primary); /* Primary 색상 테두리 */
+    border-radius: 12px;
+    padding: 30px;
+    margin-top: 40px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.result-not-found-card h2 {
+    color: var(--casa-nova-primary);
+    margin-top: 0;
+    font-size: 1.5em;
+}
+
+.result-not-found-card p {
+    color: var(--casa-nova-text);
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+/* 액션 버튼 그룹 */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+/* 재시도/돌아가기 버튼 스타일 */
+.btn-action {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary-action {
+    background-color: var(--casa-nova-accent); /* Accent (녹색) 사용 */
+    color: white;
+    border: none;
+}
+
+.btn-secondary-action {
+    background-color: white;
+    color: var(--casa-nova-primary);
+    border: 2px solid var(--casa-nova-primary);
+}
+
+.btn-primary-action:hover {
+    background-color: #00a67a; /* 약간 어둡게 */
+}
+.btn-secondary-action:hover {
+    background-color: var(--casa-nova-primary);
+    color: white;
+}
+
+/* -------------------------------------
+   7. 💳 대출 상품 카드 스타일 (Loans Page)
+   ------------------------------------- */
+
+/* 카드 그리드 컨테이너 */
+.loan-card-grid {
+    display: grid;
+    /* 화면 크기에 따라 최소 350px 너비로 자동 배치 */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px; 
+    margin-top: 20px;
+}
+
+/* 개별 대출 상품 카드 */
+.loan-item-card {
+    background-color: #ffffff; 
+    border: 1px solid var(--casa-nova-secondary); /* 연한 하늘색 테두리 */
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.loan-item-card:hover {
+    transform: translateY(-3px); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.loan-item-card h3 {
+    color: var(--casa-nova-primary); /* 상품명 강조 */
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.6em;
+}
+
+/* 주요 정보 그룹 (점수, 한도) */
+.loan-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 15px;
+    flex-grow: 1;
+}
+
+/* 개별 디테일 박스 */
+.detail-box {
+    flex: 1;
+    text-align: center;
+    padding: 15px 10px;
+    border-radius: 8px;
+    background-color: #fcfcff; /* 매우 연한 배경 */
+    border: 1px dashed #e0e0e0;
+}
+
+.detail-box strong {
+    display: block;
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+/* 점수와 한도 값 강조 */
+.detail-value-score {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: var(--casa-nova-accent); /* 점수: 녹색 강조 */
+}
+
+.detail-value-amount {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: var(--casa-nova-primary); /* 금액: 파랑 강조 */
+}
+
+/* 선택 버튼 */
+.btn-select-loan {
+    width: 100%;
+    background-color: var(--casa-nova-primary);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1.05em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: auto; 
+}
+
+.btn-select-loan:hover {
+    background-color: #004c99;
+}
+/* -------------------------------------
+   8. 🏡 부동산 매물 카드 스타일 (Properties Page)
+   ------------------------------------- */
+
+/* 카드 그리드 컨테이너 */
+.property-card-grid {
+    display: grid;
+    /* 최소 350px 너비로 자동 배치 */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px; 
+    margin-top: 20px;
+}
+
+/* 개별 부동산 매물 카드 */
+.property-item-card {
+    background-color: #ffffff;
+    border: 1px solid var(--casa-nova-secondary);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.property-item-card:hover {
+    transform: translateY(-5px); /* 마우스 올렸을 때 살짝 뜨는 효과 */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.property-item-card h3 {
+    color: var(--casa-nova-primary); /* 건물명 강조 */
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.5em;
+}
+
+/* 주소 */
+.property-address {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* 가격 및 점수 그룹 */
+.property-price-score {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.price-value {
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--casa-nova-primary); /* 가격: 진한 파랑 강조 */
+}
+
+.score-value {
+    font-size: 1.6em;
+    font-weight: bold;
+    color: var(--casa-nova-accent); /* 점수: 녹색 강조 */
+}
+
+.infra-details {
+    font-size: 0.9em;
+    color: #555;
+    padding-top: 10px;
+    border-top: 1px dashed #f0f0f0;
+}
+
+.infra-details div {
+    margin-bottom: 4px;
+}
+
+=======
+>>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3

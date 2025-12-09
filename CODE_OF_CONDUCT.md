@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+
+=======
 # Code of Conduct
 
 ## Our Pledge
@@ -32,3 +35,4 @@ If you experience or witness unacceptable behavior, please report it to [whtddms
 
 ## Attribution
 This Code of Conduct is adapted from the Contributor Covenant, version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct/?utm_source
+>>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3

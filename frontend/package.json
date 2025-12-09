@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
+=======
     "dev": "vite",
 
     
@@ -13,6 +15,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 
     "preview": "vite preview",
+>>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -22,6 +25,11 @@
   "devDependencies": {
     "@types/react": "^19.2.6",
     "@types/react-dom": "^19.2.3",
+<<<<<<< HEAD
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "typescript": "^5.9.3"
+=======
 
     "@vitejs/plugin-react": "^5.1.1",
 
@@ -31,5 +39,6 @@
     "react-dom": "^19.2.0",
     "typescript": "^5.9.3",
     "vite": "^7.2.2"
+>>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
   }
 }

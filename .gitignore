@@ -11,3 +11,7 @@ __pycache__/
 # Vite / build cache (필요하면)
 frontend/dist/
 frontend/.vite/
+<<<<<<< HEAD
+"backend/" 
+=======
+>>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
