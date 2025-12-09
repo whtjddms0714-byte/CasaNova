@@ -11,10 +11,10 @@ permalink: /properties.html  # JS 로직의 경로와 일치
 </p>
 
 <div class="header-action" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
-    <a href="/info-1/" style="color:var(--casa-nova-primary); text-decoration:none;">
+    <a href="{{ '/info-1/' | relative_url }}" style="color:var(--casa-nova-primary); text-decoration:none;">
         ← 재무 정보 다시 입력하기
     </a>
-    <a href="/loans.html" style="color:var(--casa-nova-primary); text-decoration:none;">
+    <a href="{{ '/loans.html' | relative_url }}" style="color:var(--casa-nova-primary); text-decoration:none;">
         대출 추천 다시 보기 →
     </a>
 </div>
@@ -151,10 +151,10 @@ permalink: /properties.html  # JS 로직의 경로와 일치
                     예산 상한선, 희망 지역 또는 인프라 가중치를 조절해 보세요.
                 </p>
                 <div class="action-buttons">
-                    <a href="/info-1/" class="btn-action btn-secondary-action"> 
+                    <a href="{{ '/info-1/' | relative_url }}" class="btn-action btn-secondary-action"> 
                         ⬅️ 재무 정보 다시 입력하기
                     </a>
-                    <a href="/loans.html" class="btn-action btn-primary-action">
+                    <a href="{{ '/loans.html' | relative_url }}" class="btn-action btn-primary-action">
                         대출 한도 다시 선택하기
                     </a>
                 </div>
