@@ -1,32 +1,32 @@
 ---
 layout: default
-title: "대출 추천 결과 (Info 2)"
-permalink: /loans.html  #
+title: "Loan Recommendations (Info 2)"
+permalink: /pages/loans.html  # Must match JS redirect logic
 ---
 
-
-<h1>대출 상품 추천</h1>
+<h1>Loan Product Recommendations</h1>
 
 <p>
-  입력한 정보로 Django API(<code>/api/recommend-loans/</code>)에 요청하여 추천 대출 상품을 조회합니다.
+  Based on your financial profile, this page requests loan recommendations from the Django API (<code>/api/recommend-loans/</code>).
 </p>
 
 <div class="header-action" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
-    <span id="status-box" style="font-weight: bold; font-size: 1.1em;">요청 준비 중...</span>
-    <a href="{{ '/info-1/' | relative_url }}" style="color:var(--casa-nova-primary); text-decoration:none;">
-        ← 재무 정보 다시 입력하기
+    <span id="status-box" style="font-weight: bold; font-size: 1.1em;">Preparing request...</span>
+    <a href="/info-1/" style="color:var(--casa-nova-primary); text-decoration:none;">
+        ← Re-enter financial information
     </a>
 </div>
 
-<div id="loans-card-container" class="loan-card-grid" style="display: none;"></div>
-
-
+<div id="loans-card-container" class="loan-card-grid" style="display: none;">
+</div>
 
 <script>
   const API_BASE = "http://127.0.0.1:8000/api";
   const statusBox = document.getElementById("status-box");
-  const PROPERTY_URL = "{{ '/properties.html' | relative_url }}";  // ✅ 추가
 
+  /* ===============================================
+     English-based Product Name List
+     =============================================== */
   const PRODUCT_NAMES = [
     "Prime", "Apex", "Elite", "Vision", "Trust", "Global", "Secure", "Capital",
     "Future", "Harmony", "Unity", "Clarity", "Ascent", "Liberty", "Venture", "Keystone"
@@ -49,11 +49,11 @@ permalink: /loans.html  #
 
     if (!userInfo) {
       statusBox.textContent =
-        "사용자 정보가 없습니다. Find Home 페이지에서 다시 입력해주세요.";
+        "No user information found. Please return to the Find Home page and enter your details again.";
       return;
     }
 
-    statusBox.textContent = "대출 상품 추천을 불러오는 중입니다...";
+    statusBox.textContent = "Fetching recommended loan products...";
 
     try {
       const res = await fetch(`${API_BASE}/recommend-loans/`, {
@@ -64,90 +64,94 @@ permalink: /loans.html  #
 
       if (!res.ok) {
         const text = await res.text();
-        statusBox.textContent = `오류 발생: ${res.status} ${res.statusText} - ${text}`;
+        statusBox.textContent = `Error: ${res.status} ${res.statusText} - ${text}`;
         return;
       }
 
       const data = await res.json();
       const loans = data.loan_recommendations || [];
 
+      // If no recommendations are returned
       if (!loans.length) {
         const htmlContent = `
             <div class="result-not-found-card">
-                <h2>대출 추천 결과가 없습니다 😥</h2>
+                <h2>No Loan Recommendations 😥</h2>
                 <p>
-                    현재 입력하신 재무 정보로는 조건에 맞는 대출 상품을 찾을 수 없었습니다.
+                    Based on your current financial information, no suitable loan products were found.
                 </p>
                 <div class="action-buttons">
-                    <a href="{{ '/info-1/' | relative_url }}" class="btn-action btn-primary-action">
-                        재무 정보 다시 입력하기 →
+                    <a href="/info-1/" class="btn-action btn-primary-action">
+                        Re-enter financial information →
                     </a>
                 </div>
             </div>
         `;
-        const parentContainer = container.parentNode; 
+        const parentContainer = container.parentNode;
         parentContainer.innerHTML = htmlContent;
         return;
       }
 
+      // Render loan recommendation cards
       container.innerHTML = "";
-      
+
       loans.slice(0, 20).forEach((loan, index) => {
         const wordIndex = index % PRODUCT_NAMES.length;
         const loanWord = PRODUCT_NAMES[wordIndex];
         const newLoanName = `${loanWord} Loan`;
 
-        const maxLoanFormatted = loan.max_loan.toLocaleString("ko-KR") + ' 원';
+        const maxLoanFormatted = loan.max_loan.toLocaleString("en-US") + " KRW";
         const scoreFormatted = loan.score.toFixed(2);
-        
-        const cardHTML = document.createElement('div');
-        cardHTML.className = 'loan-item-card';
+
+        const cardHTML = document.createElement("div");
+        cardHTML.className = "loan-item-card";
         cardHTML.innerHTML = `
-            <h3>${newLoanName}</h3> 
+            <h3>${newLoanName}</h3>
             <div class="loan-details">
                 <div class="detail-box">
-                    <strong>추천 점수</strong>
+                    <strong>Recommendation Score</strong>
                     <span class="detail-value-score">${scoreFormatted}</span>
                 </div>
                 <div class="detail-box">
-                    <strong>최대 대출액</strong>
+                    <strong>Maximum Loan Amount</strong>
                     <span class="detail-value-amount">${maxLoanFormatted}</span>
                 </div>
             </div>
-            <button class="btn-select-loan" data-max-loan="${loan.max_loan}" data-loan-name="${loan.name}">
-                이 상품 선택 및 진행하기 →
+            <button class="btn-select-loan" 
+                    data-max-loan="${loan.max_loan}" 
+                    data-loan-name="${loan.name}">
+                Select this product →
             </button>
         `;
-        
+
         container.appendChild(cardHTML);
       });
 
-      statusBox.textContent = "대출 상품을 선택해주세요.";
+      statusBox.textContent = "Please select a loan product.";
       container.style.display = "grid";
 
-      container.querySelectorAll('.btn-select-loan').forEach(btn => {
+      // Button event bindings (after rendering)
+      container.querySelectorAll(".btn-select-loan").forEach((btn) => {
         btn.addEventListener("click", (e) => {
-            const maxLoan = Number(e.currentTarget.dataset.maxLoan);
-            const loanName = e.currentTarget.dataset.loanName;
-            
-            localStorage.setItem(
-                "casanova_selected_loan_amount",
-                JSON.stringify(maxLoan)
-            );
-            localStorage.setItem(
-                "casanova_selected_loan_name",
-                JSON.stringify(loanName)
-            );
+          const maxLoan = Number(e.currentTarget.dataset.maxLoan);
+          const loanName = e.currentTarget.dataset.loanName;
 
-            console.log("PROPERTY_URL =", PROPERTY_URL);
-            window.location.href = PROPERTY_URL;   // ✅ 여기!
+          localStorage.setItem(
+            "casanova_selected_loan_amount",
+            JSON.stringify(maxLoan)
+          );
+          localStorage.setItem(
+            "casanova_selected_loan_name",
+            JSON.stringify(loanName)
+          );
+
+          window.location.href = "/properties.html";
         });
       });
 
     } catch (err) {
       console.error(err);
       statusBox.textContent =
-        "요청 중 오류가 발생했습니다. 콘솔 로그를 확인해주세요.";
+        "An error occurred during the request. Please check the console for details.";
     }
   }
 
