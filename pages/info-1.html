@@ -1,171 +1,169 @@
+--
+layout: default
+title: "Find Home - Info 1"
+permalink: /info-1/ # <-- 슬래시(/)가 포함된 경로가 맞는지 확인
+---
+
+<h1>CasaNova 시뮬레이터</h1>
+<p>아래 정보를 입력한 뒤, 다음 단계로 이동하세요.</p>
+
+<form id="user-form">
+  <div class="input-grid">
+    <div class="input-card">
+      <h2>1. 재무 정보 입력</h2>
+
+      <label
+        >월 소득 (원)
+        <input
+          type="number"
+          id="income_monthly"
+          required
+          placeholder="예: 4000000"
+        />
+      </label>
+      <label
+        >신용점수
+        <input type="number" id="credit_score" required placeholder="예: 750" />
+      </label>
+      <label
+        >DSR 비율 (0~1 사이, 예: 0.4)
+        <input type="number" step="0.01" id="dsr_ratio" value="0.4" required />
+      </label>
+      <label
+        >기존 부채 원금 (원)
+        <input type="number" id="existing_debt" value="0" />
+      </label>
+      <label
+        >기존 부채 월 상환액 (원)
+        <input type="number" id="existing_debt_monthly_payment" value="0" />
+      </label>
+      <label style="display: block; margin-bottom: 15px">
+        <input
+          type="checkbox"
+          id="married"
+          style="width: auto; margin-right: 5px"
+        />
+        기혼 여부
+      </label>
+      <label style="display: block">
+        <input
+          type="checkbox"
+          id="first_job"
+          style="width: auto; margin-right: 5px"
+        />
+        첫 직장(사회초년생) 여부
+      </label>
+    </div>
+
+    <div class="input-card">
+      <h2>2. 부동산 선호 정보</h2>
+
+      <label
+        >보유 자산 (원)
+        <input type="number" id="asset" value="0" required />
+      </label>
+      <label
+        >예산 상한 (만원 단위, 선택)
+        <input type="number" id="budget_limit" placeholder="예: 60000 (6억)" />
+      </label>
+      <label
+        >희망 지역 (구 이름, 예: 강남구)
+        <input type="text" id="target_gu" placeholder="예: 강남구" />
+      </label>
+    </div>
+
+    <div class="input-card">
+      <h2>3. 인프라 중요도 (우선순위 설정)</h2>
+      <p style="font-size: 0.9em; color: #555">
+        항목을 드래그하여 원하는 순서대로 배치하세요.
+      </p>
+
+      <ul id="priority-list" style="list-style: none; padding: 0">
+        <li class="priority-item" data-key="w_transport" draggable="true">
+          <span
+            class="priority-rank"
+            style="font-weight: bold; color: var(--casa-nova-primary)"
+            >[1]</span
+          >
+          🚇 교통(역)
+        </li>
+        <li class="priority-item" data-key="w_school" draggable="true">
+          <span
+            class="priority-rank"
+            style="font-weight: bold; color: var(--casa-nova-primary)"
+            >[2]</span
+          >
+          🏫 학교
+        </li>
+        <li class="priority-item" data-key="w_mart" draggable="true">
+          <span
+            class="priority-rank"
+            style="font-weight: bold; color: var(--casa-nova-primary)"
+            >[3]</span
+          >
+          🛒 마트
+        </li>
+        <li class="priority-item" data-key="w_park" draggable="true">
+          <span
+            class="priority-rank"
+            style="font-weight: bold; color: var(--casa-nova-primary)"
+            >[4]</span
+          >
+          🌳 공원
+        </li>
+      </ul>
+
+      <p style="margin-top: 20px; font-size: 0.8em; color: #888">
+        * 1위: 가중치 4, 4위: 가중치 1로 자동 반영됩니다.
+      </p>
+    </div>
+  </div>
+  <p
+    id="error-message"
+    style="color: red; margin-top: 20px; text-align: center"
+  ></p>
+
+  <div class="button-group">
+    <button type="submit" class="btn-primary">대출 추천 받고 진행하기 →</button>
+    <button type="button" id="skip-loan" class="btn-secondary">
+      대출 없이 바로 매물 찾기 →
+    </button>
+  </div>
+</form>
+
 <script>
   const form = document.getElementById("user-form");
   const errorBox = document.getElementById("error-message");
   const priorityList = document.getElementById("priority-list");
   const skipLoanButton = document.getElementById("skip-loan");
+  const LOAN_URL = "{{ '/loan/' | relative_url }}";
+  const PROPERTY_URL = "{{ '/properties/' | relative_url }}";
 
-  // ✅ Jekyll permalink 기준 경로
-  const LOAN_URL = "{{ '/loans.html' | relative_url }}";
-  const PROPERTY_URL = "{{ '/properties.html' | relative_url }}";
+  // ✅ 실제 파일 위치에 맞춘 경로 (pages/loans.html, pages/properties.html)
+  const LOAN_URL = "{{ '/pages/loans.html' | relative_url }}";
+  const PROPERTY_URL = "{{ '/pages/properties.html' | relative_url }}";
 
   // ----------------------------------------------------
   // 드래그 앤 드롭 로직 (간단 구현)
   // ----------------------------------------------------
-  let draggingItem = null;
-
-  priorityList.addEventListener("dragstart", (e) => {
-    if (e.target.classList.contains("priority-item")) {
-      draggingItem = e.target;
-      setTimeout(() => e.target.classList.add("dragging"), 0);
-    }
-  });
-
-  priorityList.addEventListener("dragend", (e) => {
-    e.target.classList.remove("dragging");
-    draggingItem = null;
-    updatePriorityRanks();
-  });
-
-  priorityList.addEventListener(
-    "dragover",
-    (e) => {
-      e.preventDefault();
-      if (draggingItem) {
-        const afterElement = getDragAfterElement(priorityList, e.clientY);
-        const currentItem = draggingItem;
-        if (afterElement == null) {
-          priorityList.appendChild(currentItem);
-        } else {
-          priorityList.insertBefore(currentItem, afterElement);
-        }
-      }
-    },
-    false
-  );
-
-  function getDragAfterElement(container, y) {
-    const draggableElements = [
-      ...container.querySelectorAll(".priority-item:not(.dragging)"),
-    ];
-
-    return draggableElements.reduce(
-      (closest, child) => {
-        const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-          return { offset: offset, element: child };
-        } else {
-          return closest;
-        }
-      },
-      { offset: Number.NEGATIVE_INFINITY }
-    ).element;
-  }
-
-  function updatePriorityRanks() {
-    const items = priorityList.querySelectorAll(".priority-item");
-    items.forEach((item, index) => {
-      item.querySelector(".priority-rank").textContent = `[${index + 1}]`;
-    });
-  }
-
-  function getPriorityWeights() {
-    const listItems = document.querySelectorAll(
-      "#priority-list .priority-item"
-    );
-
-    const weightsMap = {
-      w_park: 0,
-      w_school: 1,
-      w_mart: 2,
-      w_transport: 3,
-    };
-
-    const orderedWeights = [0, 0, 0, 0];
-
-    listItems.forEach((item, index) => {
-      const weightValue = 4 - index;
-      const key = item.getAttribute("data-key");
-
-      if (weightsMap.hasOwnProperty(key)) {
-        orderedWeights[weightsMap[key]] = weightValue;
-      }
-    });
-
-    return orderedWeights;
-  }
-
-  function buildUserInfo() {
-    errorBox.textContent = "";
-
-    const income_monthly = Number(
-      document.getElementById("income_monthly").value || 0
-    );
-    const credit_score = Number(
-      document.getElementById("credit_score").value || 0
-    );
-    const dsr_ratio = Number(document.getElementById("dsr_ratio").value || 0.4);
-    const existing_debt = Number(
-      document.getElementById("existing_debt").value || 0
-    );
-    const existing_debt_monthly_payment = Number(
-      document.getElementById("existing_debt_monthly_payment").value || 0
-    );
-    const married = document.getElementById("married").checked;
-    const first_job = document.getElementById("first_job").checked;
-
-    const asset = Number(document.getElementById("asset").value || 0);
-    const budget_limit_raw = document.getElementById("budget_limit").value;
-    const budget_limit = budget_limit_raw ? Number(budget_limit_raw) : null;
-    const target_gu = document.getElementById("target_gu").value || "";
-
-    const weights = getPriorityWeights();
-
-    if (!income_monthly || !credit_score) {
-      errorBox.textContent = "월 소득과 신용점수는 필수입니다.";
-      return null;
-    }
-
-    return {
-      income_monthly,
-      credit_score,
-      dsr_ratio,
-      existing_debt,
-      existing_debt_monthly_payment,
-      married,
-      first_job,
-      asset,
-      budget_limit,
-      target_gu,
-      weights,
-    };
-  }
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const userInfo = buildUserInfo();
-    if (!userInfo) return;
-
+@@ -296,8 +166,8 @@ <h2>3. 인프라 중요도 (우선순위 설정)</h2>
+    // localStorage에 저장
     localStorage.setItem("casanova_user_info", JSON.stringify(userInfo));
 
-    // ✅ 대출 추천 페이지로 이동
-    // 디버깅용: 실제 LOAN_URL 확인
-    console.log("LOAN_URL =", LOAN_URL);
+    // 대출 추천 페이지로 이동
+    window.location.href = "/loans.html";
+    // ✅ 대출 추천 페이지로 이동 (pages/loans.html)
     window.location.href = LOAN_URL;
   });
 
-  skipLoanButton.addEventListener("click", () => {
-    const userInfo = buildUserInfo();
-    if (!userInfo) return;
-
-    localStorage.setItem("casanova_user_info", JSON.stringify(userInfo));
-    localStorage.setItem(
-      "casanova_selected_loan_amount",
+  // ----------------------------------------------------
+@@ -315,7 +185,7 @@ <h2>3. 인프라 중요도 (우선순위 설정)</h2>
       JSON.stringify(0)
     );
 
-    console.log("PROPERTY_URL =", PROPERTY_URL);
+    // 바로 부동산 추천 페이지로 이동
+    window.location.href = "/properties.html";
+    // ✅ 바로 부동산 추천 페이지로 이동 (pages/properties.html)
     window.location.href = PROPERTY_URL;
   });
 </script>
