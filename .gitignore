@@ -1,17 +1,5 @@
-# Python venv
-venv/
-
-# Node modules
-frontend/node_modules/
-
-# Python cache
-__pycache__/
-*.pyc
-
-# Vite / build cache (필요하면)
-frontend/dist/
-frontend/.vite/
-<<<<<<< HEAD
-"backend/" 
-=======
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
+_site
+.sass-cache
+.jekyll-cache
+.jekyll-metadata
+vendor
