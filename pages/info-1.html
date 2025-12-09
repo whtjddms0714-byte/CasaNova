@@ -1,90 +1,133 @@
 ---
 layout: default
 title: "Find Home - Info 1"
-permalink: /info-1/
+permalink: /info-1/ # <-- 슬래시(/)가 포함된 경로가 맞는지 확인
 ---
 
 <h1>CasaNova 시뮬레이터</h1>
-<p>
-  아래 정보를 입력한 뒤, 다음 단계로 이동하세요.
-</p>
+<p>아래 정보를 입력한 뒤, 다음 단계로 이동하세요.</p>
 
 <form id="user-form">
   <div class="input-grid">
-    
     <div class="input-card">
       <h2>1. 재무 정보 입력</h2>
-      
-      <label>월 소득 (원)
-        <input type="number" id="income_monthly" required placeholder="예: 4000000" />
+
+      <label
+        >월 소득 (원)
+        <input
+          type="number"
+          id="income_monthly"
+          required
+          placeholder="예: 4000000"
+        />
       </label>
-      <label>신용점수
+      <label
+        >신용점수
         <input type="number" id="credit_score" required placeholder="예: 750" />
       </label>
-      <label>DSR 비율 (0~1 사이, 예: 0.4)
+      <label
+        >DSR 비율 (0~1 사이, 예: 0.4)
         <input type="number" step="0.01" id="dsr_ratio" value="0.4" required />
       </label>
-      <label>기존 부채 원금 (원)
+      <label
+        >기존 부채 원금 (원)
         <input type="number" id="existing_debt" value="0" />
       </label>
-      <label>기존 부채 월 상환액 (원)
+      <label
+        >기존 부채 월 상환액 (원)
         <input type="number" id="existing_debt_monthly_payment" value="0" />
       </label>
-      <label style="display: block; margin-bottom: 15px;">
-        <input type="checkbox" id="married" style="width: auto; margin-right: 5px;" />
+      <label style="display: block; margin-bottom: 15px">
+        <input
+          type="checkbox"
+          id="married"
+          style="width: auto; margin-right: 5px"
+        />
         기혼 여부
       </label>
-      <label style="display: block;">
-        <input type="checkbox" id="first_job" style="width: auto; margin-right: 5px;" />
+      <label style="display: block">
+        <input
+          type="checkbox"
+          id="first_job"
+          style="width: auto; margin-right: 5px"
+        />
         첫 직장(사회초년생) 여부
       </label>
-      
     </div>
-    
+
     <div class="input-card">
       <h2>2. 부동산 선호 정보</h2>
-      
-      <label>보유 자산 (원)
+
+      <label
+        >보유 자산 (원)
         <input type="number" id="asset" value="0" required />
       </label>
-      <label>예산 상한 (만원 단위, 선택)
+      <label
+        >예산 상한 (만원 단위, 선택)
         <input type="number" id="budget_limit" placeholder="예: 60000 (6억)" />
       </label>
-      <label>희망 지역 (구 이름, 예: 강남구)
+      <label
+        >희망 지역 (구 이름, 예: 강남구)
         <input type="text" id="target_gu" placeholder="예: 강남구" />
       </label>
-      <!-- 🔻 여기 있던 "대출 여부 선택" 라디오 블록은 삭제됨 -->
     </div>
-    
+
     <div class="input-card">
       <h2>3. 인프라 중요도 (우선순위 설정)</h2>
-      <p style="font-size: 0.9em; color: #555;">항목을 드래그하여 원하는 순서대로 배치하세요.</p>
+      <p style="font-size: 0.9em; color: #555">
+        항목을 드래그하여 원하는 순서대로 배치하세요.
+      </p>
 
-      <ul id="priority-list" style="list-style: none; padding: 0;">
+      <ul id="priority-list" style="list-style: none; padding: 0">
         <li class="priority-item" data-key="w_transport" draggable="true">
-          <span class="priority-rank" style="font-weight: bold; color: var(--casa-nova-primary);">[1]</span> 🚇 교통(역)
+          <span
+            class="priority-rank"
+            style="font-weight: bold; color: var(--casa-nova-primary)"
+            >[1]</span
+          >
+          🚇 교통(역)
         </li>
         <li class="priority-item" data-key="w_school" draggable="true">
-          <span class="priority-rank" style="font-weight: bold; color: var(--casa-nova-primary);">[2]</span> 🏫 학교
+          <span
+            class="priority-rank"
+            style="font-weight: bold; color: var(--casa-nova-primary)"
+            >[2]</span
+          >
+          🏫 학교
         </li>
         <li class="priority-item" data-key="w_mart" draggable="true">
-          <span class="priority-rank" style="font-weight: bold; color: var(--casa-nova-primary);">[3]</span> 🛒 마트
+          <span
+            class="priority-rank"
+            style="font-weight: bold; color: var(--casa-nova-primary)"
+            >[3]</span
+          >
+          🛒 마트
         </li>
         <li class="priority-item" data-key="w_park" draggable="true">
-          <span class="priority-rank" style="font-weight: bold; color: var(--casa-nova-primary);">[4]</span> 🌳 공원
+          <span
+            class="priority-rank"
+            style="font-weight: bold; color: var(--casa-nova-primary)"
+            >[4]</span
+          >
+          🌳 공원
         </li>
       </ul>
-      
-      <p style="margin-top: 20px; font-size: 0.8em; color: #888;">* 1위: 가중치 4, 4위: 가중치 1로 자동 반영됩니다.</p>
+
+      <p style="margin-top: 20px; font-size: 0.8em; color: #888">
+        * 1위: 가중치 4, 4위: 가중치 1로 자동 반영됩니다.
+      </p>
     </div>
-
   </div>
-
-  <p id="error-message" style="color: red; margin-top: 20px; text-align: center;"></p>
+  <p
+    id="error-message"
+    style="color: red; margin-top: 20px; text-align: center"
+  ></p>
 
   <div class="button-group">
     <button type="submit" class="btn-primary">대출 추천 받고 진행하기 →</button>
-    <button type="button" id="skip-loan" class="btn-secondary">대출 없이 바로 매물 찾기 →</button>
+    <button type="button" id="skip-loan" class="btn-secondary">
+      대출 없이 바로 매물 찾기 →
+    </button>
   </div>
 </form>
 
@@ -95,54 +138,65 @@ permalink: /info-1/
   const skipLoanButton = document.getElementById("skip-loan");
 
   // ----------------------------------------------------
-  // 드래그 앤 드롭 로직
+  // 드래그 앤 드롭 로직 (간단 구현)
   // ----------------------------------------------------
   let draggingItem = null;
 
   priorityList.addEventListener("dragstart", (e) => {
-    if (e.target.classList.contains('priority-item')) {
+    if (e.target.classList.contains("priority-item")) {
       draggingItem = e.target;
-      setTimeout(() => e.target.classList.add('dragging'), 0);
+      setTimeout(() => e.target.classList.add("dragging"), 0);
     }
   });
 
   priorityList.addEventListener("dragend", (e) => {
-    e.target.classList.remove('dragging');
+    e.target.classList.remove("dragging");
     draggingItem = null;
+    // 드래그가 끝났을 때 순위 번호 업데이트
     updatePriorityRanks();
   });
 
-  priorityList.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    if (draggingItem) {
-      const afterElement = getDragAfterElement(priorityList, e.clientY);
-      const currentItem = draggingItem;
-      if (afterElement == null) {
-        priorityList.appendChild(currentItem);
-      } else {
-        priorityList.insertBefore(currentItem, afterElement);
+  priorityList.addEventListener(
+    "dragover",
+    (e) => {
+      e.preventDefault();
+      if (draggingItem) {
+        const afterElement = getDragAfterElement(priorityList, e.clientY);
+        const currentItem = draggingItem;
+        if (afterElement == null) {
+          priorityList.appendChild(currentItem);
+        } else {
+          priorityList.insertBefore(currentItem, afterElement);
+        }
       }
-    }
-  }, false);
+    },
+    false
+  );
 
   function getDragAfterElement(container, y) {
-    const draggableElements = [...container.querySelectorAll('.priority-item:not(.dragging)')];
+    const draggableElements = [
+      ...container.querySelectorAll(".priority-item:not(.dragging)"),
+    ];
 
-    return draggableElements.reduce((closest, child) => {
-      const box = child.getBoundingClientRect();
-      const offset = y - box.top - box.height / 2;
-      if (offset < 0 && offset > closest.offset) {
-        return { offset: offset, element: child };
-      } else {
-        return closest;
-      }
-    }, { offset: Number.NEGATIVE_INFINITY }).element;
+    return draggableElements.reduce(
+      (closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      },
+      { offset: Number.NEGATIVE_INFINITY }
+    ).element;
   }
-  
+
+  // 순위 번호를 업데이트하는 함수
   function updatePriorityRanks() {
-    const items = priorityList.querySelectorAll('.priority-item');
+    const items = priorityList.querySelectorAll(".priority-item");
     items.forEach((item, index) => {
-      item.querySelector('.priority-rank').textContent = `[${index + 1}]`;
+      item.querySelector(".priority-rank").textContent = `[${index + 1}]`;
     });
   }
 
@@ -150,32 +204,39 @@ permalink: /info-1/
   // 가중치 계산 로직
   // ----------------------------------------------------
   function getPriorityWeights() {
-    const listItems = document.querySelectorAll("#priority-list .priority-item");
-    
+    const listItems = document.querySelectorAll(
+      "#priority-list .priority-item"
+    );
+
+    // 백엔드에서 요구하는 순서: w_park, w_school, w_mart, w_transport
     const weightsMap = {
-      "w_park": 0,
-      "w_school": 1,
-      "w_mart": 2,
-      "w_transport": 3
+      w_park: 0,
+      w_school: 1,
+      w_mart: 2,
+      w_transport: 3,
     };
-    
-    const orderedWeights = [0, 0, 0, 0]; 
-    
+
+    // [w_park, w_school, w_mart, w_transport] 순서로 저장될 배열 (초기값 0)
+    const orderedWeights = [0, 0, 0, 0];
+
+    // 순위대로 4, 3, 2, 1 가중치 부여
     listItems.forEach((item, index) => {
       const weightValue = 4 - index; // 1위: 4, 4위: 1
-      const key = item.getAttribute('data-key');
+      const key = item.getAttribute("data-key"); // data-key (w_park, w_school 등) 읽기
+
+      // 올바른 순서대로 가중치를 배열에 삽입
       if (weightsMap.hasOwnProperty(key)) {
         orderedWeights[weightsMap[key]] = weightValue;
       }
     });
-    
-    return orderedWeights; 
+
+    return orderedWeights;
   }
 
   // ----------------------------------------------------
-  // 공통: 사용자 입력 저장 함수
+  // 공통: 폼 데이터에서 userInfo 객체 만드는 함수
   // ----------------------------------------------------
-  function saveUserInfo() {
+  function buildUserInfo() {
     errorBox.textContent = "";
 
     const income_monthly = Number(
@@ -199,14 +260,15 @@ permalink: /info-1/
     const budget_limit = budget_limit_raw ? Number(budget_limit_raw) : null;
     const target_gu = document.getElementById("target_gu").value || "";
 
+    // 드래그 순서에 따른 가중치
     const weights = getPriorityWeights();
 
     if (!income_monthly || !credit_score) {
       errorBox.textContent = "월 소득과 신용점수는 필수입니다.";
-      return false;
+      return null;
     }
 
-    const userInfo = {
+    return {
       income_monthly,
       credit_score,
       dsr_ratio,
@@ -217,32 +279,42 @@ permalink: /info-1/
       asset,
       budget_limit,
       target_gu,
-      weights: weights,
+      weights,
     };
-
-    localStorage.setItem("casanova_user_info", JSON.stringify(userInfo));
-    return true;
   }
 
   // ----------------------------------------------------
-  // 폼 제출: "대출 추천 받고 진행하기"
+  // 폼 제출 이벤트 (대출 추천 받고 진행하기)
   // ----------------------------------------------------
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (!saveUserInfo()) return;
 
-    // 항상 "대출을 한다" 플로우 → 대출 추천 페이지
+    const userInfo = buildUserInfo();
+    if (!userInfo) return;
+
+    // localStorage에 저장
+    localStorage.setItem("casanova_user_info", JSON.stringify(userInfo));
+
+    // 대출 추천 페이지로 이동
     window.location.href = "/loans.html";
   });
 
   // ----------------------------------------------------
-  // "대출 없이 바로 매물 찾기" 버튼
+  // 대출 없이 바로 매물 찾기 버튼 로직
   // ----------------------------------------------------
   skipLoanButton.addEventListener("click", () => {
-    if (!saveUserInfo()) return;
+    const userInfo = buildUserInfo();
+    if (!userInfo) return;
 
-    // 대출 없이 진행 → 선택 대출금액을 0으로 저장 후 바로 매물 페이지로
-    localStorage.setItem("casanova_selected_loan_amount", JSON.stringify(0));
+    // 유저 정보 저장
+    localStorage.setItem("casanova_user_info", JSON.stringify(userInfo));
+    // 대출 금액 0으로 설정
+    localStorage.setItem(
+      "casanova_selected_loan_amount",
+      JSON.stringify(0)
+    );
+
+    // 바로 부동산 추천 페이지로 이동
     window.location.href = "/properties.html";
   });
 </script>
