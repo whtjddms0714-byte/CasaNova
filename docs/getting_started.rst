@@ -1,37 +1,17 @@
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-# 설치 방법, 시작하기
-=======
 Getting Started
 ===============
 
 This guide explains how to set up and run the CasaNova backend and the Jekyll-based simulator locally.
 
-=======
-Getting Started
-===============
-
-This page explains how to set up and run the CasaNova project
-for local development.
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
-
 Prerequisites
 -------------
 
-<<<<<<< HEAD
-Install the following tools before starting:
+Install the following tools:
 
 - Python 3.10+ and ``pip``
 - Git
-- Node.js (optional if using the React frontend)
+- Node.js (for any optional frontend tooling, if used)
 - A modern web browser
-
-=======
-- Git
-- Python 3.10+ (with ``pip``)
-- Node.js (npm or yarn)
-- MySQL client (for local DB connection)
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
 
 Clone the Repository
 --------------------
@@ -41,8 +21,6 @@ Clone the Repository
    git clone https://github.com/whtjddms0714-byte/CasaNova.git
    cd CasaNova
 
-<<<<<<< HEAD
-
 Python Environment
 ------------------
 
@@ -51,40 +29,32 @@ Optionally create and activate a virtual environment:
 .. code-block:: bash
 
    python -m venv venv
-
    # Windows
    venv\Scripts\activate
-
-   # macOS / Linux
+   # macOS/Linux
    source venv/bin/activate
 
-Install backend dependencies:
+Install Python dependencies:
 
 .. code-block:: bash
 
    pip install -r requirements.txt
 
-
 Database Setup
 --------------
 
-CasaNova uses SQLite as the default development database.  
-No additional database configuration is required for local execution.
+By default, CasaNova uses SQLite.
 
-Apply migrations to create the necessary schema:
+Apply migrations:
 
 .. code-block:: bash
 
    python manage.py migrate
 
-If you intend to use MySQL or PostgreSQL in production environments,
-refer to the advanced configuration settings in the project's ``settings.py``.
-
-
 Running the Django Backend
 --------------------------
 
-Start the Django backend:
+Start the development server:
 
 .. code-block:: bash
 
@@ -95,102 +65,30 @@ The API will be available at:
 - ``http://127.0.0.1:8000/api/recommend-loans/``
 - ``http://127.0.0.1:8000/api/recommend-properties/``
 
+Static Web Frontend (Jekyll)
+----------------------------
 
-Frontend Application (React + Vite)
------------------------------------
+The Jekyll-based static website provides:
 
-The main frontend is located under ``frontend/`` and is built with:
+- ``/index.html``: user input form,
+- ``/loans.html``: loan recommendation and selection,
+- ``/properties.html``: property recommendations.
 
-- React
-- TypeScript
-- Tailwind CSS
-- Vite development server
+For local development you can:
 
-To run the frontend:
-=======
-Backend Setup (Django API)
---------------------------
-
-.. code-block:: bash
-
-   # (Optional) Create and activate virtual environment
-   python -m venv venv
-   # Windows
-   venv\Scripts\activate
-   # macOS / Linux
-   source venv/bin/activate
-
-   # Install backend dependencies
-   pip install -r requirements.txt
-
-   # Run database migrations
-   python manage.py makemigrations
-   python manage.py migrate
-
-   # Start the Django API server
-   python manage.py runserver
-
-The API will be available at: ``http://127.0.0.1:8000/``
-
-Frontend Setup (Vite + React/TypeScript)
-----------------------------------------
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
-
-.. code-block:: bash
-
-   cd frontend
-<<<<<<< HEAD
-   npm install
-   npm run dev
-
-The web application will be served at:
-
-- http://localhost:5173
-
-
-Static Web Simulator (Jekyll-Based)
------------------------------------
-
-CasaNova also includes a lightweight Jekyll-compatible static website,
-used as a simulator interface during early development.
-
-The static pages include:
-
-- ``index.html`` – User financial input
-- ``loans.html`` – Loan recommendation and selection
-- ``properties.html`` – Property recommendation results
-
-These pages communicate with the Django backend using ``fetch`` API calls.
-
-You may:
-
-- Serve the static site using any lightweight local HTTP server
-- Host it via GitHub Pages (recommended and already configured in the repository)
-
+- Serve the ``frontend`` or website folder via a simple HTTP server, or
+- Use GitHub Pages to host the Jekyll site (configured in the repository).
 
 Data Files
 ----------
 
-The backend requires several CSV datasets located under ``backend/data/``:
+The backend expects CSV datasets in ``backend/data/`` (or equivalent ``data/`` directory), including:
 
-- ``estate.csv`` – Property listings
-- ``station.csv`` – Transit station locations
-- ``park.csv`` – Park locations
-- ``mart.csv`` – Mart/store locations
-- ``school.csv`` – School locations
+- ``estate.csv``: property listings,
+- ``station.csv``: transit stations,
+- ``park.csv``: parks,
+- ``mart.csv``: marts,
+- ``school.csv``: schools.
 
-Ensure these files exist and follow the schemas described in :doc:`technical_overview`.
+Ensure that these files are present and follow the expected schema described in :doc:`technical_overview`.
 
-
-You are now ready to run CasaNova locally!
->>>>>>> Stashed changes
-=======
-
-   # Install dependencies
-   npm install
-
-   # Start the development server
-   npm run dev
-
-The web app will be available at: ``http://localhost:5173``
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
