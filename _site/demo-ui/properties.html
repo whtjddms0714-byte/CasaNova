@@ -1,0 +1,174 @@
+<h1>부동산 추천 결과</h1>
+
+<p>
+  사용자 정보와 선택한 대출 한도를 기반으로 Django
+  API(<code>/api/recommend-properties/</code>)에서 추천 부동산 목록을
+  조회합니다.
+</p>
+
+<p>
+  <a href="/index.html">← 처음으로 돌아가기</a>
+  &nbsp;|&nbsp;
+  <a href="/loans.html">대출 추천 다시 보기</a>
+</p>
+
+<div id="summary" style="margin-top: 1rem"></div>
+<div id="status-box" style="margin-top: 0.5rem">요청 준비 중...</div>
+
+<table
+  id="properties-table"
+  border="1"
+  cellpadding="6"
+  cellspacing="0"
+  style="margin-top: 1rem; display: none"
+>
+  <thead>
+    <tr>
+      <th>주소</th>
+      <th>건물명</th>
+      <th>가격 (만원)</th>
+      <th>인프라 점수</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+  const API_BASE = "http://127.0.0.1:8000/api";
+  const statusBox = document.getElementById("status-box");
+  const table = document.getElementById("properties-table");
+  const tbody = table.querySelector("tbody");
+  const summary = document.getElementById("summary");
+
+  function loadUserInfo() {
+    const raw = localStorage.getItem("casanova_user_info");
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      console.error("Failed to parse user info:", e);
+      return null;
+    }
+  }
+
+  function loadSelectedLoanAmount() {
+    const raw = localStorage.getItem("casanova_selected_loan_amount");
+    if (!raw) return 0;
+    try {
+      return Number(JSON.parse(raw));
+    } catch (e) {
+      console.error("Failed to parse selected loan amount:", e);
+      return 0;
+    }
+  }
+
+  function loadSelectedLoanName() {
+    const raw = localStorage.getItem("casanova_selected_loan_name");
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async function fetchProperties() {
+    const userInfo = loadUserInfo();
+    const selectedLoanAmount = loadSelectedLoanAmount();
+
+    if (!userInfo) {
+      statusBox.textContent =
+        "사용자 정보가 없습니다. 처음 페이지에서 다시 입력해주세요.";
+      return;
+    }
+
+    const loanName = loadSelectedLoanName();
+    const hasLoan = selectedLoanAmount > 0;
+
+    let summaryHtml = "";
+    if (hasLoan) {
+      summaryHtml += `<p>선택한 대출 상품: <strong>${
+        loanName || "선택됨"
+      }</strong></p>`;
+      summaryHtml += `<p>대출 한도: <strong>${selectedLoanAmount.toLocaleString(
+        "ko-KR"
+      )}원</strong></p>`;
+    } else {
+      summaryHtml += `<p>대출 없이 보유 자산만으로 부동산을 추천합니다.</p>`;
+    }
+    summary.innerHTML = summaryHtml;
+
+    statusBox.textContent = "부동산 추천을 불러오는 중입니다...";
+
+    try {
+      const res = await fetch(`${API_BASE}/recommend-properties/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_info: userInfo,
+          selected_loan_amount: selectedLoanAmount,
+        }),
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        statusBox.textContent = `오류 발생: ${res.status} ${res.statusText} - ${text}`;
+        return;
+      }
+
+      const data = await res.json();
+
+      if (data.message && data.message !== "success") {
+        statusBox.textContent = data.message;
+      } else {
+        statusBox.textContent = "추천 결과입니다.";
+      }
+
+      const properties = data.properties || [];
+
+      if (!properties.length) {
+        statusBox.textContent =
+          data.message ||
+          "조건에 맞는 부동산이 없습니다. 예산/지역을 조정해보세요.";
+        return;
+      }
+
+      tbody.innerHTML = "";
+      properties.slice(0, 50).forEach((prop) => {
+        const tr = document.createElement("tr");
+
+        const tdAddr = document.createElement("td");
+        tdAddr.textContent = prop.address || "";
+
+        const tdName = document.createElement("td");
+        tdName.textContent = prop.building_name || "";
+
+        const tdPrice = document.createElement("td");
+        tdPrice.textContent =
+          typeof prop.price_10k === "number"
+            ? prop.price_10k.toLocaleString("ko-KR")
+            : prop.price_10k;
+
+        const tdScore = document.createElement("td");
+        tdScore.textContent =
+          typeof prop["Infrastructure Score"] === "number"
+            ? prop["Infrastructure Score"].toFixed(1)
+            : prop["Infrastructure Score"];
+
+        tr.appendChild(tdAddr);
+        tr.appendChild(tdName);
+        tr.appendChild(tdPrice);
+        tr.appendChild(tdScore);
+        tbody.appendChild(tr);
+      });
+
+      table.style.display = "table";
+    } catch (err) {
+      console.error(err);
+      statusBox.textContent =
+        "요청 중 오류가 발생했습니다. 콘솔 로그를 확인해주세요.";
+    }
+  }
+
+  fetchProperties();
+</script>

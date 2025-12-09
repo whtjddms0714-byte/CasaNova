@@ -1,0 +1,14 @@
+# Python venv
+venv/
+
+# Node modules
+frontend/node_modules/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Vite / build cache (필요하면)
+frontend/dist/
+frontend/.vite/
+"backend/" 
