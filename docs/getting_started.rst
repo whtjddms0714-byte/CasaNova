@@ -12,7 +12,6 @@ Getting Started
 
 This page explains how to set up and run the CasaNova project
 for local development.
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
 
 Prerequisites
 -------------
@@ -30,7 +29,7 @@ Install the following tools before starting:
 - Python 3.10+ (with ``pip``)
 - Node.js (npm or yarn)
 - MySQL client (for local DB connection)
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
+
 
 Clone the Repository
 --------------------
@@ -40,7 +39,6 @@ Clone the Repository
    git clone https://github.com/whtjddms0714-byte/CasaNova.git
    cd CasaNova
 
-<<<<<<< HEAD
 
 Python Environment
 ------------------
