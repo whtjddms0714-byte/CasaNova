@@ -1,13 +1,14 @@
 ---
 layout: default
 title: "Loan Recommendations (Info 2)"
-permalink: /pages/loans.html  # Must match JS redirect logic
+permalink: /loans.html  # Must match JS redirects
 ---
 
-<h1>Loan Product Recommendations</h1>
+<h1>Loan Recommendations</h1>
 
 <p>
-  Based on your financial profile, this page requests loan recommendations from the Django API (<code>/api/recommend-loans/</code>).
+  Based on your input, this page requests recommended loan products from the Django API
+  (<code>/api/recommend-loans/</code>).
 </p>
 
 <div class="header-action" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
@@ -17,16 +18,13 @@ permalink: /pages/loans.html  # Must match JS redirect logic
     </a>
 </div>
 
-<div id="loans-card-container" class="loan-card-grid" style="display: none;">
-</div>
+<div id="loans-card-container" class="loan-card-grid" style="display: none;"></div>
 
 <script>
   const API_BASE = "http://127.0.0.1:8000/api";
   const statusBox = document.getElementById("status-box");
 
-  /* ===============================================
-     English-based Product Name List
-     =============================================== */
+  // English loan name word-list
   const PRODUCT_NAMES = [
     "Prime", "Apex", "Elite", "Vision", "Trust", "Global", "Secure", "Capital",
     "Future", "Harmony", "Unity", "Clarity", "Ascent", "Liberty", "Venture", "Keystone"
@@ -49,11 +47,11 @@ permalink: /pages/loans.html  # Must match JS redirect logic
 
     if (!userInfo) {
       statusBox.textContent =
-        "No user information found. Please return to the Find Home page and enter your details again.";
+        "No user information found. Please return to the Find Home page and enter your information.";
       return;
     }
 
-    statusBox.textContent = "Fetching recommended loan products...";
+    statusBox.textContent = "Fetching loan recommendations...";
 
     try {
       const res = await fetch(`${API_BASE}/recommend-loans/`, {
@@ -71,13 +69,13 @@ permalink: /pages/loans.html  # Must match JS redirect logic
       const data = await res.json();
       const loans = data.loan_recommendations || [];
 
-      // If no recommendations are returned
       if (!loans.length) {
+        // No results card
         const htmlContent = `
             <div class="result-not-found-card">
                 <h2>No Loan Recommendations 😥</h2>
                 <p>
-                    Based on your current financial information, no suitable loan products were found.
+                    Based on your financial information, no suitable loan products were found.
                 </p>
                 <div class="action-buttons">
                     <a href="/info-1/" class="btn-action btn-primary-action">
@@ -91,7 +89,7 @@ permalink: /pages/loans.html  # Must match JS redirect logic
         return;
       }
 
-      // Render loan recommendation cards
+      // Render loan cards
       container.innerHTML = "";
 
       loans.slice(0, 20).forEach((loan, index) => {
@@ -99,7 +97,8 @@ permalink: /pages/loans.html  # Must match JS redirect logic
         const loanWord = PRODUCT_NAMES[wordIndex];
         const newLoanName = `${loanWord} Loan`;
 
-        const maxLoanFormatted = loan.max_loan.toLocaleString("en-US") + " KRW";
+        const maxLoanFormatted =
+          loan.max_loan.toLocaleString("en-US") + " KRW";
         const scoreFormatted = loan.score.toFixed(2);
 
         const cardHTML = document.createElement("div");
@@ -116,20 +115,21 @@ permalink: /pages/loans.html  # Must match JS redirect logic
                     <span class="detail-value-amount">${maxLoanFormatted}</span>
                 </div>
             </div>
-            <button class="btn-select-loan" 
-                    data-max-loan="${loan.max_loan}" 
-                    data-loan-name="${loan.name}">
-                Select this product →
+            <button 
+                class="btn-select-loan" 
+                data-max-loan="${loan.max_loan}" 
+                data-loan-name="${loan.name}">
+                Select this Loan →
             </button>
         `;
 
         container.appendChild(cardHTML);
       });
 
-      statusBox.textContent = "Please select a loan product.";
+      statusBox.textContent = "Please choose a loan product.";
       container.style.display = "grid";
 
-      // Button event bindings (after rendering)
+      // Add click listener for each loan button
       container.querySelectorAll(".btn-select-loan").forEach((btn) => {
         btn.addEventListener("click", (e) => {
           const maxLoan = Number(e.currentTarget.dataset.maxLoan);
@@ -151,7 +151,7 @@ permalink: /pages/loans.html  # Must match JS redirect logic
     } catch (err) {
       console.error(err);
       statusBox.textContent =
-        "An error occurred during the request. Please check the console for details.";
+        "An error occurred while requesting loan recommendations. Check console logs for details.";
     }
   }
 
