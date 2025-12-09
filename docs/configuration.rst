@@ -1,5 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< Updated upstream
+
+
 # 설정 가이드
 =======
 Configuration Guide
@@ -96,7 +96,7 @@ Description of Variables
 
 - **DB_* variables**  
   Configure the MySQL database used by Django.
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
+
 
 Database Configuration
 ----------------------
@@ -363,4 +363,4 @@ Troubleshooting Configuration Issues
 -------------------------------------------------------------
 End of Configuration Guide
 -------------------------------------------------------------
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
+

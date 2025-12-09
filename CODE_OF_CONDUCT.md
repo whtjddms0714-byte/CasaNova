@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 # Code of Conduct
 
 ## Our Pledge
@@ -31,8 +28,7 @@ Examples of unacceptable behavior:
 Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, or other contributions that violate this Code of Conduct. By adopting this Code of Conduct, maintainers pledge to enforce these principles fairly and consistently in all aspects of project management. Maintainers who fail to uphold or enforce this Code of Conduct may be removed from the project team.
 
 ## Reporting
-If you experience or witness unacceptable behavior, please report it to [whtddms0714@gmail.com].
+If you experience or witness unacceptable behavior, please report it to [casanova23011@gmail.com].
 
 ## Attribution
 This Code of Conduct is adapted from the Contributor Covenant, version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct/?utm_source
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3

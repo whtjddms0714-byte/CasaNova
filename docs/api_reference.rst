@@ -1,5 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< Updated upstream
+
+
 # API 문서
 =======
 API Reference
@@ -12,12 +12,12 @@ API Reference
 
 This document provides the API specification for CasaNova’s backend service.
 All endpoints follow RESTful conventions and return JSON responses.
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
+
 
 Base URL
 --------
 
-<<<<<<< HEAD
+
 In development, the default base URL is:
 
 - ``http://127.0.0.1:8000/api/``
@@ -28,7 +28,7 @@ For local development:
 
 ``http://127.0.0.1:8000/api/``
 
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
+
 
 Authentication
 --------------
@@ -360,4 +360,4 @@ Notes
 - Frontend clients should not rely on internal scoring logic, only on returned results.
 
 End of API Reference.
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
+

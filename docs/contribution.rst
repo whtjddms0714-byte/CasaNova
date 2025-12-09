@@ -1,10 +1,7 @@
 Contribution Guidelines
 =======================
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-기여 절차, 코딩 컨벤션, PR 방법 등.
-=======
+
 We welcome contributions that improve CasaNova’s reliability, features,
 and documentation.
 
@@ -94,7 +91,6 @@ CasaNova is distributed under the Apache License 2.0.
 By contributing code or documentation, you agree that your contributions
 may be included under this license, as specified in the project's
 ``LICENSE`` file.
->>>>>>> Stashed changes
 =======
 Thank you for your interest in contributing to CasaNova!
 We welcome developers, designers, and data contributors of all experience levels.
@@ -285,4 +281,4 @@ Whether you fix a typo, improve documentation, or develop a new algorithm—
 **we appreciate every contribution.**
 
 End of Contribution Guidelines.
->>>>>>> 99cfac16b797d7549dabf44f88a13845caa126e3
+
