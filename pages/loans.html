@@ -13,10 +13,11 @@ permalink: /loans.html  #
 
 <div class="header-action" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
     <span id="status-box" style="font-weight: bold; font-size: 1.1em;">요청 준비 중...</span>
-    <a href="/info-1/" style="color:var(--casa-nova-primary); text-decoration:none;">
+    <a href="{{ '/info-1/' | relative_url }}" style="color:var(--casa-nova-primary); text-decoration:none;">
         ← 재무 정보 다시 입력하기
     </a>
 </div>
+
 
 <div id="loans-card-container" class="loan-card-grid" style="display: none;">
     </div>
@@ -26,7 +27,7 @@ permalink: /loans.html  #
 <script>
   const API_BASE = "http://127.0.0.1:8000/api";
   const statusBox = document.getElementById("status-box");
-  
+  const PROPERTY_URL = "{{ '/properties.html' | relative_url }}";
   // ⭐️⭐️⭐️ 새로운 영어 단어 목록 정의 ⭐️⭐️⭐️
   const PRODUCT_NAMES = [
     "Prime", "Apex", "Elite", "Vision", "Trust", "Global", "Secure", "Capital",
@@ -82,7 +83,7 @@ permalink: /loans.html  #
                     현재 입력하신 재무 정보로는 조건에 맞는 대출 상품을 찾을 수 없었습니다.
                 </p>
                 <div class="action-buttons">
-                    <a href="/info-1/" class="btn-action btn-primary-action">
+                    <a href="{{ '/info-1/' | relative_url }}" class="btn-action btn-primary-action">
                         재무 정보 다시 입력하기 →
                     </a>
                 </div>
@@ -145,7 +146,8 @@ permalink: /loans.html  #
                 "casanova_selected_loan_name",
                 JSON.stringify(loanName)
             );
-            window.location.href = "/properties.html";
+            window.location.href = PROPERTY_URL;   // ✅ baseurl 포함된 경로로 이동
+
         });
     });
 
