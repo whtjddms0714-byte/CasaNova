@@ -12,10 +12,10 @@ permalink: /properties.html  # Must match JS redirect logic
 </p>
 
 <div class="header-action" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
-    <a href="/info-1/" style="color:var(--casa-nova-primary); text-decoration:none;">
+    <a href="{{ '/info-1/' | relative_url }}" style="color:var(--casa-nova-primary); text-decoration:none;">
         ← Re-enter financial information
     </a>
-    <a href="/loans.html" style="color:var(--casa-nova-primary); text-decoration:none;">
+    <a href="{{ '/loans.html' | relative_url }}" style="color:var(--casa-nova-primary); text-decoration:none;">
         View loan recommendations again →
     </a>
 </div>
@@ -147,10 +147,10 @@ permalink: /properties.html  # Must match JS redirect logic
                     Try adjusting your budget ceiling, preferred district, or infrastructure priorities.
                 </p>
                 <div class="action-buttons">
-                    <a href="/info-1/" class="btn-action btn-secondary-action">
+                    <a href="{{ '/info-1/' | relative_url }}" class="btn-action btn-secondary-action">
                         ⬅️ Re-enter financial information
                     </a>
-                    <a href="/loans.html" class="btn-action btn-primary-action">
+                    <a "{{ '/loans.html' | relative_url }}" class="btn-action btn-primary-action">
                         Choose a different loan limit
                     </a>
                 </div>
