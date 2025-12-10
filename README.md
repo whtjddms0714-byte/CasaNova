@@ -32,10 +32,10 @@ The heart of CasaNova lies in its two primary engines: **Financial Analysis** an
 
 | Feature | Status | Description |
 | :--- | :--- | :--- |
-| **💰 Financial Simulation Engine** | `In Progress` | DSR-based logic using the PMT formula to calculate maximum loan amount and monthly repayment. |
-| **📈 Budget Confirmation & Visualization** | `In Progress` | Calculates budget as **Asset + Max Loan**, visualized with Chart.js. |
-| **🎯 Lifestyle Matching Engine** | `In Progress` | Weighted scoring algorithm for lifestyle preferences. |
-| **🧭 Integrated Filtering** | `In Progress` | Filters properties within budget and ranks them by matching score. |
+| **💰 Financial Simulation Engine** | `Done` | DSR-based logic using the PMT formula to calculate maximum loan amount and monthly repayment. |
+| **📈 Budget Confirmation & Visualization** | `Done` | Calculates budget as **Asset + Max Loan**, visualized with Chart.js. |
+| **🎯 Lifestyle Matching Engine** | `Done` | Weighted scoring algorithm for lifestyle preferences. |
+| **🧭 Integrated Filtering** | `Done` | Filters properties within budget and ranks them by matching score. |
 
 ---
 
