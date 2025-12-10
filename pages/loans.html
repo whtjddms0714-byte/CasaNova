@@ -13,7 +13,7 @@ permalink: /loans.html  # Must match JS redirects
 
 <div class="header-action" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
     <span id="status-box" style="font-weight: bold; font-size: 1.1em;">Preparing request...</span>
-    <a href="/info-1/" style="color:var(--casa-nova-primary); text-decoration:none;">
+    <a href="{{ '/info-1/' | relative_url }}" style="color:var(--casa-nova-primary); text-decoration:none;">
         ← Re-enter financial information
     </a>
 </div>
@@ -78,7 +78,7 @@ permalink: /loans.html  # Must match JS redirects
                     Based on your financial information, no suitable loan products were found.
                 </p>
                 <div class="action-buttons">
-                    <a href="/info-1/" class="btn-action btn-primary-action">
+                    <a href="{{ '/info-1/' | relative_url }}" class="btn-action btn-primary-action">
                         Re-enter financial information →
                     </a>
                 </div>
