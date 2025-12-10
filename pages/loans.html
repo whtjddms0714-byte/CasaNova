@@ -44,7 +44,7 @@ permalink: /loans.html  # Must match JS redirects
   async function fetchLoanRecommendations() {
     const userInfo = loadUserInfo();
     const container = document.getElementById("loans-card-container");
-
+    const PROPERTY_URL = "{{ '/properties.html' | relative_url }}";
     if (!userInfo) {
       statusBox.textContent =
         "No user information found. Please return to the Find Home page and enter your information.";
@@ -144,7 +144,7 @@ permalink: /loans.html  # Must match JS redirects
             JSON.stringify(loanName)
           );
 
-          window.location.href = "/properties.html";
+          window.location.href = PROPERTY_URL;
         });
       });
 
