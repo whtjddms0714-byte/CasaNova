@@ -83,6 +83,23 @@ def calculate_distance(
 ) -> pd.DataFrame:
     """
     estate df에 인프라까지의 도보 시간(분) 컬럼 추가.
+    - infra_df에 latitude/longitude가 비어 있는 행이 있으면 전부 NaN으로 퍼지는 문제 방지
     """
-    df_estate[col_name] = nearest_infra_vectorized(df_estate, infra_df)
+    # 1) 복사본 사용
+    tmp_infra = infra_df.copy()
+
+    # 2) 위도/경도를 숫자로 강제 변환 (문자/공백 → NaN)
+    tmp_infra["latitude"] = pd.to_numeric(tmp_infra["latitude"], errors="coerce")
+    tmp_infra["longitude"] = pd.to_numeric(tmp_infra["longitude"], errors="coerce")
+
+    # 3) 위도/경도 NaN인 행 제거
+    tmp_infra = tmp_infra.dropna(subset=["latitude", "longitude"])
+
+    # 4) 만약 쓸 수 있는 인프라가 한 개도 없으면 → 전부 NaN으로 두고 리턴
+    if tmp_infra.empty:
+        df_estate[col_name] = np.nan
+        return df_estate
+
+    # 5) 정상 계산
+    df_estate[col_name] = nearest_infra_vectorized(df_estate, tmp_infra)
     return df_estate

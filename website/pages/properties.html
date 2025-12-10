@@ -1,51 +1,79 @@
 ---
 layout: default
-title: "부동산 추천 결과 (Info 3)"
-permalink: /properties.html  # JS 로직의 경로와 일치
+title: "Property Recommendations (Info 3)"
+permalink: /properties.html # Must match JS redirect logic
 ---
 
-<h1>부동산 추천 결과</h1>
+<h1>Recommended Properties</h1>
 
 <p>
-  사용자 정보와 선택한 대출 한도를 기반으로 Django API(<code>/api/recommend-properties/</code>)에서 추천 부동산 목록을 조회합니다.
+  Based on your profile and the selected loan limit, this page requests
+  recommended properties from the Django API
+  (<code>/api/recommend-properties/</code>).
 </p>
 
-<div class="header-action" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
-    <a href="/info-1/" style="color:var(--casa-nova-primary); text-decoration:none;">
-        ← 재무 정보 다시 입력하기
-    </a>
-    <a href="/loans.html" style="color:var(--casa-nova-primary); text-decoration:none;">
-        대출 추천 다시 보기 →
-    </a>
+<div
+  class="header-action"
+  style="
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  "
+>
+  <a
+    href="/info-1/"
+    style="color: var(--casa-nova-primary); text-decoration: none"
+  >
+    ← Re-enter financial information
+  </a>
+  <a
+    href="/loans.html"
+    style="color: var(--casa-nova-primary); text-decoration: none"
+  >
+    View loan recommendations again →
+  </a>
 </div>
 
-<div id="status-box" style="margin-top: 1rem; font-weight: bold; font-size: 1.1em; padding: 10px; border: 1px solid var(--casa-nova-secondary); background-color: #f9f9ff; border-radius: 8px;">
-    요청 준비 중...
+<div
+  id="status-box"
+  style="
+    margin-top: 1rem;
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 10px;
+    border: 1px solid var(--casa-nova-secondary);
+    background-color: #f9f9ff;
+    border-radius: 8px;
+  "
+>
+  Preparing request...
 </div>
 
-<div id="properties-card-container" class="property-card-grid" style="display: none;">
-    </div>
-
-
+<div
+  id="properties-card-container"
+  class="property-card-grid"
+  style="display: none"
+></div>
 
 <script>
   const API_BASE = "http://127.0.0.1:8000/api";
   const statusBox = document.getElementById("status-box");
 
-  // 이전 테이블 관련 요소 (참조는 유지하되, 나중에 숨깁니다)
+  // Legacy table references (kept for compatibility, but hidden later)
   const table = document.getElementById("properties-table");
   const tbody = table ? table.querySelector("tbody") : null;
 
   const summary = document.getElementById("summary");
 
-  // ⭐️⭐️ 인프라 거리 포맷팅 헬퍼 함수 (데이터가 없으면 '-' 표시)
+  // Helper: format infrastructure distance (show "-" when no data)
   const formatDistance = (value) => {
-      // 값이 null, undefined, 0, 또는 'N/A'인 경우 '-' 반환
-      if (!value || value === 0 || value === 'N/A') return '-'; 
-      // 값이 있을 경우 '분'을 붙여 반환
-      return `${value}분`; 
+    // If the value is null, undefined, 0, or 'N/A', show "-"
+    if (!value || value === 0 || value === "N/A") return "-";
+    // Otherwise, display with "min"
+    return `${value} min`;
   };
-  
+
   function loadUserInfo() {
     const raw = localStorage.getItem("casanova_user_info");
     if (!raw) return null;
@@ -81,12 +109,11 @@ permalink: /properties.html  # JS 로직의 경로와 일치
   async function fetchProperties() {
     const userInfo = loadUserInfo();
     const selectedLoanAmount = loadSelectedLoanAmount();
-    // ⭐️ 새 컨테이너 참조
     const container = document.getElementById("properties-card-container");
 
     if (!userInfo) {
       statusBox.textContent =
-        "사용자 정보가 없습니다. 처음 페이지에서 다시 입력해주세요.";
+        "No user information found. Please go back to the first page and enter your details again.";
       return;
     }
 
@@ -95,21 +122,20 @@ permalink: /properties.html  # JS 로직의 경로와 일치
 
     let summaryHtml = "";
     if (hasLoan) {
-      summaryHtml += `<p>선택한 대출 상품: <strong>${
-        loanName || "선택됨"
+      summaryHtml += `<p>Selected loan product: <strong>${
+        loanName || "Selected"
       }</strong></p>`;
-      summaryHtml += `<p>대출 한도: <strong>${selectedLoanAmount.toLocaleString(
-        "ko-KR"
-      )}원</strong></p>`;
+      summaryHtml += `<p>Loan limit: <strong>${selectedLoanAmount.toLocaleString(
+        "en-US"
+      )} KRW</strong></p>`;
     } else {
-      summaryHtml += `<p>대출 없이 보유 자산만으로 부동산을 추천합니다.</p>`;
+      summaryHtml += `<p>Property recommendations are based on your own assets (no loan selected).</p>`;
     }
     if (summary) summary.innerHTML = summaryHtml;
 
-    statusBox.textContent = "부동산 추천을 불러오는 중입니다...";
+    statusBox.textContent = "Fetching property recommendations...";
     if (container) container.style.display = "none";
     if (table) table.style.display = "none";
-
 
     try {
       const res = await fetch(`${API_BASE}/recommend-properties/`, {
@@ -123,7 +149,7 @@ permalink: /properties.html  # JS 로직의 경로와 일치
 
       if (!res.ok) {
         const text = await res.text();
-        statusBox.textContent = `오류 발생: ${res.status} ${res.statusText} - ${text}`;
+        statusBox.textContent = `Error: ${res.status} ${res.statusText} - ${text}`;
         return;
       }
 
@@ -132,96 +158,105 @@ permalink: /properties.html  # JS 로직의 경로와 일치
       if (data.message && data.message !== "success") {
         statusBox.textContent = data.message;
       } else {
-        statusBox.textContent = "추천 결과입니다.";
+        statusBox.textContent = "Here are your recommended properties.";
       }
 
       const properties = data.properties || [];
 
       if (!properties.length) {
-        // ⭐️ 결과 없음 카드 로직 (링크 /info-1/로 수정됨)
-        const loanStatusMessage = selectedLoanAmount === 0 
-            ? "보유 자산만으로는 해당 지역에 맞는 매물을 찾을 수 없었습니다."
-            : "선택한 대출 한도로는 조건에 맞는 매물을 찾을 수 없었습니다.";
+        // Result-not-found card
+        const loanStatusMessage =
+          selectedLoanAmount === 0
+            ? "With your current assets only, no suitable listings were found in the selected area."
+            : "With the selected loan limit, no properties matched your criteria.";
 
         const htmlContent = `
             <div class="result-not-found-card">
-                <h2>매물 추천 결과가 없습니다 😢</h2>
+                <h2>No property recommendations 😢</h2>
                 <p>${loanStatusMessage}</p>
                 <p>
-                    예산 상한선, 희망 지역 또는 인프라 가중치를 조절해 보세요.
+                    Try adjusting your budget ceiling, preferred district, or infrastructure priorities.
                 </p>
                 <div class="action-buttons">
-                    <a href="/info-1/" class="btn-action btn-secondary-action"> 
-                        ⬅️ 재무 정보 다시 입력하기
+                    <a href="/info-1/" class="btn-action btn-secondary-action">
+                        ⬅️ Re-enter financial information
                     </a>
                     <a href="/loans.html" class="btn-action btn-primary-action">
-                        대출 한도 다시 선택하기
+                        Choose a different loan limit
                     </a>
                 </div>
             </div>
         `;
 
         if (statusBox && statusBox.parentNode) {
-            statusBox.parentNode.innerHTML = htmlContent;
+          statusBox.parentNode.innerHTML = htmlContent;
         } else {
-            statusBox.textContent = "No suitable properties were found. Please adjust your budget or location.";
+          statusBox.textContent =
+            "No suitable properties were found. Please adjust your budget or preferred location.";
         }
-        
+
         return;
       }
 
-      // ⭐️⭐️⭐️ 부동산 추천 카드 렌더링 로직 (최종 버전) ⭐️⭐️⭐️
+      // ============================================
+      // Property recommendation card rendering
+      // ============================================
       if (container) container.innerHTML = "";
-      
+
       properties.slice(0, 50).forEach((prop) => {
-        
-        // 1. 가격 포맷팅 (만원 단위)
-        const priceValue = typeof prop.price_10k === "number" ? prop.price_10k : 0; 
-        const priceFormatted = priceValue.toLocaleString("ko-KR") + '만원';
-        
-        // 2. 점수 포맷팅
-        const scoreValue = typeof prop["Infrastructure Score"] === "number" ? prop["Infrastructure Score"] : 0;
+        // 1. Price formatting (10,000 KRW unit)
+        const priceValue =
+          typeof prop.price_10k === "number" ? prop.price_10k : 0;
+        const priceFormatted =
+          priceValue.toLocaleString("en-US") + " × 10,000 KRW";
+
+        // 2. Infrastructure score formatting
+        const scoreValue =
+          typeof prop["Infrastructure Score"] === "number"
+            ? prop["Infrastructure Score"]
+            : 0;
         const scoreFormatted = scoreValue.toFixed(1);
-        
-        // 3. 인프라 거리 데이터 (formatDistance 헬퍼 함수 사용)
+
+        // 3. Infrastructure distance values (using helper)
         const school_d = formatDistance(prop.school_distance_min);
         const mart_d = formatDistance(prop.mart_distance_min);
         const transport_d = formatDistance(prop.transport_distance_min);
         const park_d = formatDistance(prop.park_distance_min);
-        
-        const cardHTML = document.createElement('div');
-        cardHTML.className = 'property-item-card';
+
+        const cardHTML = document.createElement("div");
+        cardHTML.className = "property-item-card";
         cardHTML.innerHTML = `
-            <h3>${prop.building_name || '건물명 없음'}</h3>
-            <div class="property-address">${prop.address || '주소 정보 없음'}</div>
-            
+            <h3>${prop.building_name || "No building name"}</h3>
+            <div class="property-address">${
+              prop.address || "No address information"
+            }</div>
+
             <div class="property-price-score">
                 <span class="price-value">${priceFormatted}</span>
                 <div>
-                    <strong>인프라 점수</strong>
+                    <strong>Infrastructure score</strong>
                     <span class="score-value">${scoreFormatted}</span>
                 </div>
             </div>
-            
+
             <div class="infra-details">
-                <div>🏫 학교 거리: ${school_d}</div>
-                <div>🛒 마트 거리: ${mart_d}</div>
-                <div>🚇 교통 거리: ${transport_d}</div>
-                <div>🌳 공원 거리: ${park_d}</div>
+                <div>🏫 School: ${school_d}</div>
+                <div>🛒 Mart: ${mart_d}</div>
+                <div>🚇 Public transport: ${transport_d}</div>
+                <div>🌳 Park: ${park_d}</div>
             </div>
         `;
-        
+
         if (container) container.appendChild(cardHTML);
       });
-      
-      statusBox.textContent = `추천 매물 ${properties.length}건이 조회되었습니다.`;
-      if (container) container.style.display = "grid"; 
-      if (table) table.style.display = "none"; 
 
+      statusBox.textContent = `Found ${properties.length} recommended properties.`;
+      if (container) container.style.display = "grid";
+      if (table) table.style.display = "none";
     } catch (err) {
       console.error(err);
       statusBox.textContent =
-        "요청 중 오류가 발생했습니다. 콘솔 로그를 확인해주세요.";
+        "An error occurred while fetching recommendations. Please check the console for details.";
     }
   }
 

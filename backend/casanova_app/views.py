@@ -1,16 +1,23 @@
 import json
 import pandas as pd
+import numpy as np  # NaN -> None 치환용
 
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt  # ← 이 줄이 반드시 있어야 함!
+from django.views.decorators.csrf import csrf_exempt
 
 from .engine.data_loader import load_loan_products, load_estate_and_infra
 from .engine.pipeline import recommend_estate
 from .engine.finance import recommend_loans
 from .engine.infra import calculate_distance, classify_grade
 
+
 @csrf_exempt
 def recommend_loans_view(request):
+    """
+    대출 추천 API
+    URL: /api/recommend-loans/
+    메서드: POST
+    """
     if request.method != "POST":
         return JsonResponse({"error": "POST only"}, status=405)
 
@@ -27,7 +34,7 @@ def recommend_loans_view(request):
             {
                 "name": name,
                 "score": score,
-                "max_loan": max_loan
+                "max_loan": max_loan,
             }
             for (name, score, max_loan) in loan_results
         ]
@@ -39,12 +46,20 @@ def recommend_loans_view(request):
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+
 @csrf_exempt
 def recommend_properties_view(request):
+    """
+    부동산 추천 API
+    URL: /api/recommend-properties/
+    메서드: POST
+    """
     if request.method != "POST":
         return JsonResponse({"error": "POST only"}, status=405)
 
     try:
+        # 1) 요청 JSON 파싱
         body = json.loads(request.body.decode("utf-8"))
         user_info = body.get("user_info")
         selected_loan_amount = body.get("selected_loan_amount")
@@ -54,34 +69,48 @@ def recommend_properties_view(request):
         if selected_loan_amount is None:
             return JsonResponse({"error": "selected_loan_amount required"}, status=400)
 
+        # 2) 부동산 + 인프라 데이터 로드
         df_estate, infra_dfs = load_estate_and_infra()
-
-        # -----------------------------
-        # 1) Distance calculation
-        # -----------------------------
         df = df_estate.copy()
+
+        # 3) 인프라까지 거리(min) 계산
         df = calculate_distance(df, infra_dfs["station"], "Transport (min)")
         df = calculate_distance(df, infra_dfs["park"], "Park (min)")
         df = calculate_distance(df, infra_dfs["mart"], "Mart (min)")
         df = calculate_distance(df, infra_dfs["school"], "School (min)")
+        # 🔧 마트/공원 거리 NaN이면 기본값(60분)으로 채우기
+        for col in ["Mart (min)"]:
+            if col in df.columns:
+                df[col] = df[col].fillna(60)
 
-        # -----------------------------
-        # 2) Score mapping
-        # -----------------------------
+        # 4) 거리 -> 점수 매핑
         df["Transport Score"] = df["Transport (min)"].apply(classify_grade)
         df["Park Score"] = df["Park (min)"].apply(classify_grade)
         df["School Score"] = df["School (min)"].apply(classify_grade)
         df["Mart Score"] = df["Mart (min)"].apply(classify_grade)
 
-        # -----------------------------
-        # 3) Recommend properties
-        # -----------------------------
+        # 5) 추천 로직 실행 (예산/지역/인프라 점수 반영)
         recommended = recommend_estate(user_info, selected_loan_amount, df)
-        recommended = recommended.where(pd.notnull(recommended), None)
 
-        # -----------------------------
-        # 🔥 4) No result → return message
-        # -----------------------------
+        # NaN -> None (1차)
+        recommended = recommended.astype(object).where(
+            pd.notnull(recommended),
+            None,
+        )
+                # 🔍 3-1) 비정상 건물명 필터링 (예: (96), (113-1), -97 등)
+        import re
+        pattern = re.compile(r'^[()\-\d\s]+$')  # 숫자/괄호/하이픈/공백만 있는 이름
+
+        bad_mask = recommended["building_name"].astype(str).apply(
+            lambda v: bool(pattern.fullmatch(v.strip()))
+        )
+
+        # 디버그용: 몇 개 잘라냈는지 보고 싶으면
+        print("⚠ filtered weird building_name rows:", bad_mask.sum())
+        # 실제 필터 적용
+        recommended = recommended[~bad_mask]
+
+        # 결과 없음 처리
         if recommended.empty:
             return JsonResponse(
                 {
@@ -90,20 +119,38 @@ def recommend_properties_view(request):
                 json_dumps_params={"ensure_ascii": False},
             )
 
-        # -----------------------------
-        # 5) Normal result
-        # -----------------------------
+        # 6) 프론트에서 쓰는 필드 이름으로 거리 컬럼 rename
+        recommended = recommended.rename(
+            columns={
+                "School (min)": "school_distance_min",
+                "Mart (min)": "mart_distance_min",
+                "Transport (min)": "transport_distance_min",
+                "Park (min)": "park_distance_min",
+            }
+        )
+
+        # 혹시 남아 있을 NaN → None 한 번 더
+        recommended = recommended.replace({np.nan: None})
+
+        # 7) 프론트에서 실제로 쓰는 필드만 JSON으로 변환
         properties = recommended[
-            ["address", "building_name", "price_10k", "Infrastructure Score"]
+            [
+                "address",
+                "building_name",
+                "price_10k",
+                "Infrastructure Score",
+                "school_distance_min",
+                "mart_distance_min",
+                "transport_distance_min",
+                "park_distance_min",
+            ]
         ].to_dict(orient="records")
 
         return JsonResponse(
-            {
-                "message": "success",
-                "properties": properties
-            },
+            {"message": "success", "properties": properties},
             json_dumps_params={"ensure_ascii": False},
         )
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+    
