@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 # 🏠 CasaNova: Financial-Based Personalized Housing Recommendation System
 
 **_New Home, New Start._**
@@ -24,6 +22,20 @@ This project is fully open-source and free for anyone to use and contribute to.
 CasaNova project documentation is available at the link below:
 
 ➡ **https://casanova.readthedocs.io/en/latest/**
+
+---
+
+## 🌐 Project Website (GitHub Pages)
+
+The official CasaNova project website is available at the link below:
+
+➡ **https://whtjddms0714-byte.github.io/CasaNova/**
+
+This website includes:
+- Project overview & mission  
+- Documentation links  
+- Feature showcase  
+- Community & contact sections  
 
 ---
 
