@@ -52,76 +52,40 @@ The heart of CasaNova lies in its two primary engines: **Financial Analysis** an
 
 ---
 
-## 🛠️ Development Environment Setup (개발 환경 설정)
+🛠️ Development Environment Setup (개발 환경 설정)CasaNova uses both Python and Node.js.To run the project, set up the Backend API and Frontend App.1. Technical StackBackend: Python 3.10+ / Django 5.x / MySQLFrontend: TypeScript / React / Tailwind CSSTooling: Git, GitHub Actions, Chart.js2. Prerequisite (필수 요구 사항)Install the following tools:GitPython 3.10+ (with pip)Node.js (npm or yarn)MySQL client (for local DB connection)3. Running the Development Server (로컬 서버 실행 가이드)This guide focuses on setting up and running the Backend (Django) server.3-1. Clone the Project and Environment SetupFirst, clone the repository and navigate into the project directory:Bash# 1. Navigate to your desired directory
+cd ~
 
-CasaNova uses both Python and Node.js.  
-To run the project, set up the **Backend API** and **Frontend App**.
-
----
-
-### 1. Technical Stack
-
-- **Backend:** Python 3.10+ / Django 5.x / MySQL  
-- **Frontend:** TypeScript / React / Tailwind CSS  
-- **Tooling:** Git, GitHub Actions, Chart.js
-
----
-
-### 2. Prerequisite (필수 요구 사항)
-
-Install the following tools:
-
-- **Git**  
-- **Python 3.10+** (with pip)  
-- **Node.js** (npm or yarn)  
-- **MySQL client** (for local DB connection)
-
----
-
-### 3. Running the Development Server (서버 실행)
-
-Clone the repository and follow the setup steps.
-
-```bash
-# 1. Clone the repository
+# 2. Clone the repository
 git clone https://github.com/whtjddms0714-byte/CasaNova.git
+
+# 3. Enter the project root directory
 cd CasaNova
-```
+Note on Conda: If you have Conda/Anaconda active, it's recommended to deactivate it it before proceeding: conda deactivate.3-2. Backend Server Setup (Django API - Python)The Django backend is located in the backend directory. We will use a virtual environment (venv) to manage dependencies.a. Create and Activate Virtual Environment (venv)Bash# Create a Python virtual environment
+python3 -m venv venv
 
-#### 3-1. Backend Server Setup (Django API - Python 기반)
+# Activate the virtual environment (macOS/Linux)
+source venv/bin/activate
+# (Windows: venv\Scripts\Activate.ps1)
+b. Navigate to the Backend DirectoryMove to the directory containing the manage.py file.Bashcd backend
+Attention: Django commands must be run from this directory.c. Install Essential Python PackagesInstall all required backend dependencies manually, as the main requirements.txt may be incomplete:Bashpip install django djangorestframework django-cors-headers pandas numpy
+PackagePurposedjangoThe core Django framework.djangorestframeworkUsed for implementing the project's REST APIs.django-cors-headersRequired for enabling cross-origin communication (CORS) with the frontend.pandas, numpyUsed in the recommendation and data processing logic.d. Run Database MigrationsApply necessary migrations to set up the local database tables:Bashpython manage.py migrate
+e. Start the Django API ServerOnce migrations are complete, start the development server:Bash# For macOS/Linux/Git Bash:
+python3 manage.py runserver
 
-```bash
-# (Optional) Create and activate a Python virtual environment
-python -m venv venv
-source venv/bin/activate  # macOS/Linux/Git Bash
-
-# Install backend dependencies
-pip install -r requirements.txt
-
-# Run database migrations (requires MySQL setup)
-python manage.py makemigrations
-python manage.py migrate
-
-# Start the Django API server
+# For Windows:
 python manage.py runserver
-```
-API accessible at: ➡[http://127.0.0.1:8000/]
- (Django default port)
+API accessible at: ➡ http://127.0.0.1:8000/3-3. Frontend Server Setup (Vite + React/TypeScript)To run the React frontend alongside the Django API:Bash# 1. Return to the project root directory
+cd ..
 
-#### 3-2. Frontend Server Setup (Vite + React/TypeScript)
-
-```bash
-# Move into the frontend directory
+# 2. Move into the frontend directory
 cd frontend
 
-# Install dependencies
+# 3. Install dependencies
 npm install
 
-# Start the development server (Vite)
+# 4. Start the development server (Vite)
 npm run dev
-```
-App accessible at: ➡ http://localhost:5173
- (Vite default port)
+App accessible at: ➡ http://localhost:5173 (Vite default port)
 
 
 ## 🤝 How to Contribute (기여 방법)
