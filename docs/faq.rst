@@ -25,12 +25,13 @@ Q: What data is used for property recommendations?
 
 The system uses CSV datasets that include:
 
-- property listings (price and location),
-- infrastructure locations (stations, parks, marts, schools).
+property listings (price and location),
 
-Only geospatial and price-related fields are required by the engine.
-Additional metadata fields may be included for display purposes.
+infrastructure locations (stations, parks, marts, schools).
 
+Only geospatial and price-related fields are required by the engine. Additional metadata fields may be included for display purposes.
+
+Data Source Note: All underlying data, including the comprehensive Seoul Metropolitan Real Estate data (from the Korea National Statistical Office) and various infrastructure location data, are sourced from the Seoul Metropolitan Government Public Data Portal (서울시 공공데이터 포털).
 Q: Can I use my own datasets?
 -----------------------------
 
@@ -39,6 +40,8 @@ as long as:
 
 - the required columns are present, or
 - the engine code is updated to match the new schema.
+
+Note on Data Format: All custom datasets must adhere to the required geospatial and price schemas to function correctly with the core recommendation engine.
 
 Q: Is authentication required to use the APIs?
 ----------------------------------------------
