@@ -52,40 +52,201 @@ The heart of CasaNova lies in its two primary engines: **Financial Analysis** an
 
 ---
 
-🛠️ Development Environment Setup (개발 환경 설정)CasaNova uses both Python and Node.js.To run the project, set up the Backend API and Frontend App.1. Technical StackBackend: Python 3.10+ / Django 5.x / MySQLFrontend: TypeScript / React / Tailwind CSSTooling: Git, GitHub Actions, Chart.js2. Prerequisite (필수 요구 사항)Install the following tools:GitPython 3.10+ (with pip)Node.js (npm or yarn)MySQL client (for local DB connection)3. Running the Development Server (로컬 서버 실행 가이드)This guide focuses on setting up and running the Backend (Django) server.3-1. Clone the Project and Environment SetupFirst, clone the repository and navigate into the project directory:Bash# 1. Navigate to your desired directory
+
+## CasaNova — 🛠️ Local Run Guide (개발 환경 설정)
+
+## Prerequisites (Recommended)
+
+- Assumes **macOS** with **Terminal**.
+- You should have the following installed:
+  
+  - `git`
+  - `python3` (recommended: 3.10 / 3.11 or higher)
+    
+- Having Conda/Anaconda installed is fine, but to avoid side effects on your existing environments, this guide will use **`venv`**.
+  - We will disable Conda with `conda deactivate` in a later step.
+- This guide focuses on **running the backend (Django)**.  
+  The frontend is handled separately.
+
+---
+
+## 1. Clone the project from GitHub
+
+Run the following commands in your terminal:
+
+```bash
 cd ~
-
-# 2. Clone the repository
 git clone https://github.com/whtjddms0714-byte/CasaNova.git
-
-# 3. Enter the project root directory
 cd CasaNova
-Note on Conda: If you have Conda/Anaconda active, it's recommended to deactivate it it before proceeding: conda deactivate.3-2. Backend Server Setup (Django API - Python)The Django backend is located in the backend directory. We will use a virtual environment (venv) to manage dependencies.a. Create and Activate Virtual Environment (venv)Bash# Create a Python virtual environment
+```
+
+⚠️ If a folder with the same name already exists, you may see an error like:
+
+fatal: destination path 'CasaNova' already exists...
+
+To remove the existing folder and restart from a clean state:
+
+```bash
+rm -rf ~/CasaNova
+cd ~
+git clone https://github.com/whtjddms0714-byte/CasaNova.git
+cd CasaNova
+```
+## 2. (Important) Deactivate Conda
+
+If Conda/Anaconda is active, the python path may be different from what you expect.
+Deactivate Conda first:
+
+```bash
+
+conda deactivate
+```
+It is not a problem if the prompt still shows (base).
+We will explicitly use venv in the next step.
+
+If Conda is not installed, this command will simply fail and can be ignored.
+
+```bash
+##Create and activate venv
+
+```
+
+From the project root (CasaNova folder), create a virtual environment:
+
+```bash
 python3 -m venv venv
+```
 
-# Activate the virtual environment (macOS/Linux)
+macOS / Linux
+
+```bash
 source venv/bin/activate
-# (Windows: venv\Scripts\Activate.ps1)
-b. Navigate to the Backend DirectoryMove to the directory containing the manage.py file.Bashcd backend
-Attention: Django commands must be run from this directory.c. Install Essential Python PackagesInstall all required backend dependencies manually, as the main requirements.txt may be incomplete:Bashpip install django djangorestframework django-cors-headers pandas numpy
-PackagePurposedjangoThe core Django framework.djangorestframeworkUsed for implementing the project's REST APIs.django-cors-headersRequired for enabling cross-origin communication (CORS) with the frontend.pandas, numpyUsed in the recommendation and data processing logic.d. Run Database MigrationsApply necessary migrations to set up the local database tables:Bashpython manage.py migrate
-e. Start the Django API ServerOnce migrations are complete, start the development server:Bash# For macOS/Linux/Git Bash:
+```
+Windows (PowerShell)
+
+```bash
+venv\Scripts\Activate.ps1
+```
+
+If activation succeeds, your shell prompt will show (venv) at the beginning, for example:
+
+```bash
+(venv) username@MacBook CasaNova %
+```
+⚠️ Do not type (venv) as part of your commands.
+(venv) is only a prompt indicator, not part of the command itself.
+
+
+## 4. Move into the backend folder
+With the virtual environment activated, move into the folder that contains the Django code:
+
+```bash
+cd backend
+```
+A manage.py file should exist directly inside backend/.
+
+If you run python manage.py ... from the wrong directory, you may see an error such as:
+
+```bash
+python: can't open file '/.../manage.py': [Errno 2] No such file or directory
+```
+## 5. Install required backend packages
+
+The top-level requirements.txt does not include all backend dependencies,
+so you need to install the Django backend requirements manually.
+
+Install the required packages with a single command:
+
+```bash
+pip install django djangorestframework django-cors-headers pandas numpy
+```
+Main libraries and why they are needed:
+
+- django
+
+    - The Django framework itself (required).
+
+- djangorestframework
+
+    - Used to implement the REST API.
+
+- django-cors-headers
+
+     - Handles CORS for communication with the frontend.
+
+     - This is already referenced in settings.py, and if it is missing you will get:
+
+
+    ```bash
+    ModuleNotFoundError: No module named 'corsheaders'
+
+    ```
+- pandas, numpy
+
+    -  Used for recommendation and data processing logic.
+
+Optional: verify Django installation
+
+```bash
+python -c "import django; print(django.get_version())"
+
+```
+
+Example output:
+
+```bash
+6.0
+
+```
+
+## 6. Run migrations (initialize the database)
+
+Apply Django migrations to set up the database schema:
+
+```bash
+python manage.py migrate
+
+```
+On success, the required DB tables are created.
+
+If you see a message like:
+
+```bash
+You have X unapplied migration(s).
+
+```
+
+then running migrate will resolve it.
+
+❗ If migrate fails, read the error message carefully.
+For example, if it complains about a missing package, go back to Step 5 and install the missing dependency, then run migrate again.
+
+## 7. Start the Django development server
+
+You are now ready to run the backend server.
+
+macOS / Linux
+
+```bash
 python3 manage.py runserver
+```
 
-# For Windows:
+Windows
+
+```bash
 python manage.py runserver
-API accessible at: ➡ http://127.0.0.1:8000/3-3. Frontend Server Setup (Vite + React/TypeScript)To run the React frontend alongside the Django API:Bash# 1. Return to the project root directory
-cd ..
+```
 
-# 2. Move into the frontend directory
-cd frontend
 
-# 3. Install dependencies
-npm install
+If the server starts successfully, you will see output similar to:
 
-# 4. Start the development server (Vite)
-npm run dev
-App accessible at: ➡ http://localhost:5173 (Vite default port)
+```bash
+Watching for file changes with StatReloader
+Django version 6.0, using settings 'casanova_server.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+```
 
 
 ## 🤝 How to Contribute (기여 방법)
