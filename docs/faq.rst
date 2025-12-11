@@ -32,6 +32,7 @@ infrastructure locations (stations, parks, marts, schools).
 Only geospatial and price-related fields are required by the engine. Additional metadata fields may be included for display purposes.
 
 Data Source Note: All underlying data, including the comprehensive Seoul Metropolitan Real Estate data (from the Korea National Statistical Office) and various infrastructure location data, are sourced from the Seoul Metropolitan Government Public Data Portal (서울시 공공데이터 포털).
+
 Q: Can I use my own datasets?
 -----------------------------
 
